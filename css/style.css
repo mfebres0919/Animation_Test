@@ -1,0 +1,258 @@
+/* ========================================================================
+   Kitchen Remodel — Hero Section (scroll-scrubbed video)
+   Minimal on purpose: the scroll animation is the thing being tested.
+   ======================================================================== */
+
+:root {
+  --ink: #12100e;
+  --paper: #f7f4ef;
+  --accent: #b9743a;
+  --accent-dark: #9a5d2c;
+
+  --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Hero height. svh keeps mobile browser chrome from causing jumps. */
+  --hero-h: 100vh;
+}
+
+@supports (height: 100svh) {
+  :root { --hero-h: 100svh; }
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  /* ScrollTrigger drives the scrub — native smooth scrolling fights it. */
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font);
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------------ HERO */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: var(--hero-h);
+  overflow: hidden;
+  background: #0b0a09;
+}
+
+/* Media layer: stays visually fixed while the page scroll scrubs playback. */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
+  /* Nudges the video onto its own compositor layer -> smoother seeking. */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Readability scrim behind the copy. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(8, 7, 6, 0.75) 0%, rgba(8, 7, 6, 0.15) 45%, rgba(8, 7, 6, 0.35) 100%);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------ HERO COPY */
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.hero__eyebrow {
+  margin: 0 0 14px;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.hero__title {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+
+.hero__sub {
+  margin: 18px 0 0;
+  font-size: clamp(0.95rem, 2.2vw, 1.125rem);
+  opacity: 0.8;
+}
+
+.hero__cta {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 16px 34px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.hero__cta:hover,
+.hero__cta:focus-visible { background: var(--accent-dark); transform: translateY(-2px); }
+
+/* ------------------------------------------------------------ SCROLL CUE */
+
+.hero__cue {
+  position: absolute;
+  left: 50%;
+  bottom: calc(28px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.hero__cue-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(247, 244, 239, 0.9), rgba(247, 244, 239, 0));
+}
+
+/* ---------------------------------------------------------------- LOADER */
+
+.hero__loader {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #0b0a09;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.hero__loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero__loader-bar {
+  display: block;
+  width: min(220px, 60vw);
+  height: 2px;
+  background: rgba(247, 244, 239, 0.18);
+  overflow: hidden;
+}
+
+.hero__loader-bar i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+/* -------------------------------------------------------- SPACER SECTION */
+
+.after {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.after h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 600;
+}
+
+.after p {
+  margin: 0;
+  max-width: 46ch;
+  opacity: 0.7;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------ RESPONSIVE */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero__cta { padding: 15px 30px; }
+}
+
+/* Phone */
+@media (max-width: 640px) {
+  .hero__content { padding: 0 20px; }
+  .hero__title { line-height: 1.12; }
+  .hero__cta { margin-top: 26px; padding: 14px 28px; font-size: 0.9rem; }
+  .hero__cue { bottom: calc(18px + env(safe-area-inset-bottom)); }
+  .hero__cue-line { height: 32px; }
+}
+
+/* Short landscape phones: pull the copy in so nothing collides. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero__title { font-size: clamp(1.5rem, 5vh, 2.25rem); }
+  .hero__sub { margin-top: 10px; }
+  .hero__cta { margin-top: 16px; padding: 11px 24px; }
+  .hero__cue { display: none; }
+}
+
+/* ------------------------------------------------- REDUCED MOTION / A11Y */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cue { display: none; }
+  .hero__cta { transition: none; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}

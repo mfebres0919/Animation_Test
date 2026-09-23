@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Kitchen Renovation — Scroll Animation Test</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ HERO (scroll-scrubbed renovation video) ============ -->
+  <section class="hero" id="hero">
+
+    <div class="hero__media">
+      <video
+        class="hero__video"
+        id="renovationVideo"
+        data-src-desktop="video/kitchen-renovation.mp4"
+        data-src-mobile="video/kitchen-renovation-mobile.mp4"
+        poster="video/poster.jpg"
+        muted
+        playsinline
+        webkit-playsinline
+        preload="auto"
+        disablepictureinpicture
+        disableremoteplayback
+        tabindex="-1"
+        aria-hidden="true"></video>
+
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">Kitchen Remodeling</p>
+      <h1 class="hero__title">Watch Your Kitchen<br />Come Back to Life</h1>
+      <p class="hero__sub">Scroll to see the transformation.</p>
+      <a class="hero__cta" href="#after">Get a Free Estimate</a>
+    </div>
+
+    <div class="hero__cue" id="scrollCue" aria-hidden="true">
+      <span class="hero__cue-text">Scroll</span>
+      <span class="hero__cue-line"></span>
+    </div>
+
+    <div class="hero__loader" id="heroLoader" role="status" aria-live="polite">
+      <span class="hero__loader-bar"><i id="heroLoaderFill"></i></span>
+      <span class="hero__loader-text">Loading renovation…</span>
+    </div>
+  </section>
+
+  <!-- ============ Spacer so you can scroll past the pinned hero ============ -->
+  <section class="after" id="after">
+    <h2>End of hero test</h2>
+    <p>Everything below here is placeholder — the hero above is the only thing being built.</p>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
