@@ -79,6 +79,7 @@
               <button
                 class="primary-nav__link submenu-toggle"
                 type="button"
+                data-nav-section="services"
                 aria-expanded="false"
                 aria-controls="servicesSubmenu">
                 Services
@@ -193,6 +194,68 @@
       <div class="hero__cue" id="heroCue" aria-hidden="true">
         <span>Scroll</span>
         <span class="hero__cue-line"></span>
+      </div>
+
+      <!-- Trust bar. The second track is an exact copy: the strip scrolls by
+           half its own width, so it lands on the duplicate and loops with no
+           visible seam. The copy is hidden from assistive tech. -->
+      <div class="hero__trust">
+        <div class="trust" role="region" aria-label="Why homeowners choose us">
+          <div class="trust__inner">
+            <ul class="trust__track">
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 1.5 2.5 4v5c0 3.6 2.7 6.2 6.5 7.5 3.8-1.3 6.5-3.9 6.5-7.5V4L9 1.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m6 9 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Licensed &amp; Insured</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3" y="2" width="12" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 6h6M6 9h6M6 12h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Free In-Home Estimates</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.8 5 16.5l4-2 4 2-1-5.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                <span>5-Year Workmanship Warranty</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="8" cy="6" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 15.5c0-3 2.5-4.8 5.5-4.8 1 0 2 .2 2.8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m11.5 13 1.7 1.7 3-3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Background-Checked Crews</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 1.5v4M9 12.5v4M1.5 9h4M12.5 9h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m4 4 2.5 2.5M11.5 11.5 14 14M14 4l-2.5 2.5M6.5 11.5 4 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Daily Site Cleanup</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><rect x="2" y="4" width="14" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 7.5h14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 11h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Financing Available</span>
+              </li>
+            </ul>
+            <ul class="trust__track" aria-hidden="true">
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 1.5 2.5 4v5c0 3.6 2.7 6.2 6.5 7.5 3.8-1.3 6.5-3.9 6.5-7.5V4L9 1.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m6 9 2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Licensed &amp; Insured</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><rect x="3" y="2" width="12" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 6h6M6 9h6M6 12h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Free In-Home Estimates</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 10.8 5 16.5l4-2 4 2-1-5.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                <span>5-Year Workmanship Warranty</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="8" cy="6" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 15.5c0-3 2.5-4.8 5.5-4.8 1 0 2 .2 2.8.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m11.5 13 1.7 1.7 3-3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Background-Checked Crews</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 1.5v4M9 12.5v4M1.5 9h4M12.5 9h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m4 4 2.5 2.5M11.5 11.5 14 14M14 4l-2.5 2.5M6.5 11.5 4 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Daily Site Cleanup</span>
+              </li>
+              <li class="trust__item">
+                <svg class="trust__icon" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true" focusable="false"><rect x="2" y="4" width="14" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 7.5h14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 11h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Financing Available</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="hero__loader" id="heroLoader" role="status" aria-live="polite">
@@ -348,6 +411,9 @@
            dripping into this one. -->
       <div class="services__divider" aria-hidden="true"></div>
 
+      <!-- Same shape mirrored, handing off to the white Gallery below. -->
+      <div class="services__divider services__divider--bottom" aria-hidden="true"></div>
+
       <div class="container services__inner">
 
         <header class="services__head">
@@ -425,11 +491,212 @@
       </div>
     </section>
 
-    <!-- Placeholder anchors so the hero CTAs resolve during the build. -->
-    <section class="section" id="gallery">
-      <div class="container">
-        <h2>Gallery</h2>
-        <p class="text-muted">Section not built yet.</p>
+    <!-- ============================ GALLERY =========================== -->
+    <section class="section gallery" id="gallery">
+      <div class="container gallery__inner" data-tabs>
+
+        <header class="gallery__head">
+          <div>
+            <p class="eyebrow">Recent Work</p>
+            <h2>Projects We&rsquo;re Proud Of</h2>
+          </div>
+
+          <div class="tabs__list" role="tablist" aria-label="Gallery media type">
+            <button class="tabs__tab" type="button" role="tab" id="tab-photos" aria-controls="panel-photos" aria-selected="true" tabindex="0">Photos</button>
+            <button class="tabs__tab" type="button" role="tab" id="tab-videos" aria-controls="panel-videos" aria-selected="false" tabindex="-1">Videos</button>
+          </div>
+        </header>
+
+        <div class="tabs__panel" role="tabpanel" id="panel-photos" aria-labelledby="tab-photos" tabindex="0">
+          <ul class="gallery__grid">
+            <li>
+              <a class="card" href="#contact">
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-01.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-01.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/project-01-m.webp" type="image/webp" />
+                    <img src="images/gallery/project-01-m.jpg" alt="Dark modern kitchen with brass fixtures and a marble waterfall island" width="480" height="640" loading="lazy" decoding="async" />
+                  </picture>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Hillside Kitchen</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Full gut and rebuild. Custom cabinetry, a waterfall island and a reworked layout that opened the room to the dining space.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="card" href="#contact">
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-02.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-02.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/project-02-m.webp" type="image/webp" />
+                    <img src="images/gallery/project-02-m.jpg" alt="Renovated bathroom with a glass walk-in shower and freestanding tub" width="480" height="640" loading="lazy" decoding="async" />
+                  </picture>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Spa Bath Retreat</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">A cramped three-piece bath became a walk-in glass shower, freestanding tub and double stone vanity.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="card" href="#contact">
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-03.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-03.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/project-03-m.webp" type="image/webp" />
+                    <img src="images/gallery/project-03-m.jpg" alt="Covered patio with lounge seating, fireplace and a pool at sunset" width="480" height="640" loading="lazy" decoding="async" />
+                  </picture>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Sunset Patio</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Covered outdoor living room with a fire feature, built-in seating and a view kept clear of posts.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="card" href="#contact">
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-04.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-04.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/project-04-m.webp" type="image/webp" />
+                    <img src="images/gallery/project-04-m.jpg" alt="Refreshed guest bathroom with new tile and vanity" width="480" height="640" loading="lazy" decoding="async" />
+                  </picture>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Guest Bath Refresh</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Same footprint, completely different room. New tile, lighting, vanity and fixtures in under three weeks.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="card" href="#contact">
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-05.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-05.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/project-05-m.webp" type="image/webp" />
+                    <img src="images/gallery/project-05-m.jpg" alt="Open-plan kitchen with black cabinetry and valley views" width="480" height="640" loading="lazy" decoding="async" />
+                  </picture>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Valley View Kitchen</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Wall removal and a repositioned island turned a closed galley into the centre of the house.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="card" href="#contact">
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-06.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/project-06.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/project-06-m.webp" type="image/webp" />
+                    <img src="images/gallery/project-06-m.jpg" alt="Primary bathroom before remodeling" width="480" height="640" loading="lazy" decoding="async" />
+                  </picture>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Primary Bath Gut</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Down to the studs. New plumbing, waterproofing and finishes built to outlast the trend cycle.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="tabs__panel" role="tabpanel" id="panel-videos" aria-labelledby="tab-videos" tabindex="0" hidden>
+          <ul class="gallery__grid gallery__grid--video">
+            <li>
+              <a class="card card--video" href="#contact" data-play-on-hover>
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/video-01-poster.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/video-01-poster.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/video-01-poster-m.webp" type="image/webp" />
+                    <img src="images/gallery/video-01-poster-m.jpg" alt="Dated kitchen before remodeling" width="560" height="315" loading="lazy" decoding="async" />
+                  </picture>
+                  <video
+                    class="card__video"
+                    data-src-desktop="video/gallery-kitchen.mp4"
+                    data-src-mobile="video/gallery-kitchen-mobile.mp4"
+                    muted loop playsinline webkit-playsinline preload="none"
+                    disablepictureinpicture disableremoteplayback
+                    tabindex="-1" aria-hidden="true"></video>
+                  <span class="card__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" focusable="false"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+                  </span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Kitchen, Start To Finish</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Ten days of demolition, cabinetry and finish work condensed into a few seconds.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="card card--video" href="#contact" data-play-on-hover>
+                <div class="card__media">
+                  <picture>
+                    <source media="(min-width: 48em)" srcset="images/gallery/video-02-poster.webp" type="image/webp" />
+                    <source media="(min-width: 48em)" srcset="images/gallery/video-02-poster.jpg" type="image/jpeg" />
+                    <source srcset="images/gallery/video-02-poster-m.webp" type="image/webp" />
+                    <img src="images/gallery/video-02-poster-m.jpg" alt="Dated bathroom before remodeling" width="560" height="315" loading="lazy" decoding="async" />
+                  </picture>
+                  <video
+                    class="card__video"
+                    data-src-desktop="video/bathroom-remodel-about.mp4"
+                    data-src-mobile="video/bathroom-remodel-about-mobile.mp4"
+                    muted loop playsinline webkit-playsinline preload="none"
+                    disablepictureinpicture disableremoteplayback
+                    tabindex="-1" aria-hidden="true"></video>
+                  <span class="card__play" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" focusable="false"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+                  </span>
+                </div>
+                <div class="card__body">
+                  <h3 class="card__title">Bathroom Transformation</h3>
+                  <span class="card__rule" aria-hidden="true"></span>
+                  <div class="card__reveal">
+                    <p class="card__text">Watch the vanity, tub and tile come out and the new room assemble in their place.</p>
+                  </div>
+                  <span class="card__more">Read More <svg class="card__arrow" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true" focusable="false"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg></span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+
       </div>
     </section>
 
@@ -441,6 +708,12 @@
     </section>
 
   </main>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false">
+      <path d="M8 13.5V3M3 7.5 8 2.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
 
   <script src="javascript/vendor/gsap.min.js" defer></script>
   <script src="javascript/vendor/ScrollTrigger.min.js" defer></script>

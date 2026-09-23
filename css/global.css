@@ -577,6 +577,10 @@ a { color: inherit; }
 .primary-nav__link:hover,
 .primary-nav__link:focus-visible { color: var(--color-gold); }
 
+/* Current section. Driven off aria-current so the visible state and the
+   announced state can never disagree. */
+.primary-nav__link[aria-current] { color: var(--color-gold); }
+
 .primary-nav__cta { margin-top: 1.25rem; }
 
 .primary-nav__cta .btn {
@@ -691,6 +695,7 @@ a { color: inherit; }
   .primary-nav__item--has-submenu { position: relative; }
 
   .primary-nav__link {
+    position: relative;
     width: auto;
     min-height: 2.75rem;
     padding: 0.5rem 1rem;
@@ -699,6 +704,22 @@ a { color: inherit; }
     letter-spacing: 0.01em;
     text-transform: none;
   }
+
+  /* Underline grows from the centre; scaleX composites rather than
+     triggering layout on every section change. */
+  .primary-nav__link::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    bottom: 0.3125rem;
+    left: 1rem;
+    height: 2px;
+    background-color: var(--color-gold);
+    transform: scaleX(0);
+    transition: transform 280ms var(--ease-out);
+  }
+
+  .primary-nav__link[aria-current]::after { transform: scaleX(1); }
 
   .nav-backdrop { display: none; }
 
@@ -829,6 +850,7 @@ a { color: inherit; }
 body.is-menu-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
+  .primary-nav__link::after,
   .primary-nav,
   .nav-backdrop,
   .submenu,
@@ -836,4 +858,50 @@ body.is-menu-open { overflow: hidden; }
   .submenu-toggle__chevron,
   .btn--dark svg,
   .skip-link { transition: none; }
+}
+
+/* ------------------------------------------------- 13. BACK TO TOP ------
+   Shared across pages. Appears once the visitor is a screen or so down.
+   ------------------------------------------------------------------------ */
+
+.to-top {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  bottom: calc(clamp(1rem, 3vw, 2rem) + env(safe-area-inset-bottom));
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  background-color: var(--color-gold);
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-black);
+  cursor: pointer;
+  box-shadow: 0 0.5rem 1.5rem rgba(17, 17, 17, 0.28);
+  /* Hidden but still laid out, so showing it costs no layout work. */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out),
+    visibility 300ms var(--ease-out),
+    background-color 250ms var(--ease-out);
+}
+
+.to-top.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.to-top:hover,
+.to-top:focus-visible { background-color: var(--color-gold-dark); }
+
+@media (prefers-reduced-motion: reduce) {
+  .to-top { transition: none; }
 }

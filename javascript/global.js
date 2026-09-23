@@ -251,3 +251,165 @@ window.MF.isTouchDevice = function () {
 
   videos.forEach(function (video) { observer.observe(video); });
 })();
+
+/* ========================================================================
+   BACK TO TOP
+   ======================================================================== */
+
+(function () {
+  "use strict";
+
+  var button = document.getElementById("toTop");
+  if (!button) return;
+
+  var queued = false;
+
+  function sync() {
+    button.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.9);
+  }
+
+  window.addEventListener("scroll", function () {
+    if (queued) return;
+    queued = true;
+    window.requestAnimationFrame(function () { sync(); queued = false; });
+  }, { passive: true });
+
+  button.addEventListener("click", function () {
+    // Deliberately an instant jump, not a smooth scroll. Smooth-scrolling
+    // from the footer would travel back through the pinned hero and scrub
+    // the whole renovation video in reverse on the way up - several seconds
+    // of flicker instead of a return to the top.
+    window.scrollTo(0, 0);
+    // Focus follows the jump, so keyboard users do not land mid-document.
+    var skip = document.querySelector(".skip-link");
+    if (skip) skip.focus({ preventScroll: true });
+  });
+
+  sync();
+})();
+
+/* ========================================================================
+   PLAY ON HOVER
+   [data-play-on-hover] loads its video on first interaction and plays it
+   only while hovered or focused, so a grid of clips costs nothing until
+   someone actually looks at one.
+   ======================================================================== */
+
+(function () {
+  "use strict";
+
+  var cards = document.querySelectorAll("[data-play-on-hover]");
+  if (!cards.length || window.MF.prefersReducedMotion()) return;
+
+  var wantsMobileSource = window.MF.isTouchDevice() || window.innerWidth < 900;
+
+  cards.forEach(function (card) {
+    var video = card.querySelector("video");
+    if (!video) return;
+
+    function start() {
+      if (!video.getAttribute("src")) {
+        var source = wantsMobileSource
+          ? video.getAttribute("data-src-mobile")
+          : video.getAttribute("data-src-desktop");
+
+        if (!source) return;
+        video.setAttribute("src", source);
+      }
+
+      var attempt = video.play();
+      if (attempt && typeof attempt.then === "function") {
+        attempt.then(function () {
+          video.classList.add("is-playing");
+        }).catch(function () {
+          // Blocked: the poster simply stays put.
+        });
+      } else {
+        video.classList.add("is-playing");
+      }
+    }
+
+    function stop() {
+      video.pause();
+      video.classList.remove("is-playing");
+    }
+
+    card.addEventListener("mouseenter", start);
+    card.addEventListener("focus", start);
+    card.addEventListener("mouseleave", stop);
+    card.addEventListener("blur", stop);
+  });
+})();
+
+/* ========================================================================
+   SCROLLSPY
+   Marks the nav entry for whichever section is currently under the header.
+   aria-current is the single source of truth: CSS selects off it, and a
+   screen reader announces the current location for free.
+   ======================================================================== */
+
+(function () {
+  "use strict";
+
+  var nav = document.getElementById("primaryNav");
+  var mainBar = document.querySelector(".main-bar");
+  if (!nav || !mainBar) return;
+
+  // Pair each nav entry with its section. Links carry a hash; the Services
+  // entry is a button, so it names its section explicitly.
+  var pairs = [];
+
+  nav.querySelectorAll(".primary-nav__link").forEach(function (link) {
+    var id = link.getAttribute("data-nav-section") ||
+             (link.getAttribute("href") || "").replace("#", "");
+    if (!id) return;
+
+    var section = document.getElementById(id);
+    if (section) pairs.push({ link: link, section: section });
+  });
+
+  if (!pairs.length) return;
+
+  var currentLink = null;
+
+  function setCurrent(link) {
+    if (link === currentLink) return;
+
+    if (currentLink) currentLink.removeAttribute("aria-current");
+    if (link) link.setAttribute("aria-current", "location");
+
+    currentLink = link;
+  }
+
+  function update() {
+    // The detection line sits just under the sticky bar, so a section counts
+    // as current the moment it reaches the point where reading resumes.
+    var line = mainBar.offsetHeight + 1;
+    var match = pairs[0];
+
+    for (var i = 0; i < pairs.length; i++) {
+      // getBoundingClientRect rather than a cached offset: while GSAP has
+      // the hero pinned it is position: fixed, so its real position only
+      // shows up in a live measurement.
+      if (pairs[i].section.getBoundingClientRect().top <= line) match = pairs[i];
+    }
+
+    // Anchored at the very bottom, the last section may be too short to
+    // ever cross the line; it is still where the reader is.
+    var atBottom = window.innerHeight + window.scrollY >=
+                   document.documentElement.scrollHeight - 2;
+
+    setCurrent(atBottom ? pairs[pairs.length - 1].link : match.link);
+  }
+
+  var queued = false;
+
+  window.addEventListener("scroll", function () {
+    if (queued) return;
+    queued = true;
+    window.requestAnimationFrame(function () { update(); queued = false; });
+  }, { passive: true });
+
+  window.addEventListener("resize", update);
+  update();
+})();
