@@ -3,60 +3,360 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Kitchen Renovation — Scroll Animation Test</title>
+  <title>Kitchen, Bathroom &amp; Patio Remodeling | Remodeling Co.</title>
+  <meta name="description" content="Kitchen, bathroom, and patio remodeling. Watch an outdated space transform into the one you deserve." />
 
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- Above-the-fold fonts only (MigsFlow §5). Poppins 600 loads normally. -->
+  <link rel="preload" href="fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 
-  <!-- ============ HERO (scroll-scrubbed renovation video) ============ -->
-  <section class="hero" id="hero">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="hero__media">
-      <video
-        class="hero__video"
-        id="renovationVideo"
-        data-src-desktop="video/kitchen-renovation.mp4"
-        data-src-mobile="video/kitchen-renovation-mobile.mp4"
-        poster="video/poster.jpg"
-        muted
-        playsinline
-        webkit-playsinline
-        preload="auto"
-        disablepictureinpicture
-        disableremoteplayback
-        tabindex="-1"
-        aria-hidden="true"></video>
+  <!-- ========================= STICKY SITE HEADER ========================= -->
+  <header class="site-header" id="siteHeader">
 
-      <div class="hero__scrim" aria-hidden="true"></div>
+    <!-- Utility bar: scrolls away, leaving the main bar stuck to the top. -->
+    <div class="utility-bar">
+      <div class="utility-bar__inner">
+
+        <p class="utility-bar__pitch">
+          <span class="utility-bar__badge" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="10" height="10" focusable="false">
+              <path d="M5 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" />
+            </svg>
+          </span>
+          Have a Project in Mind?
+          <a href="#contact">Contact With Us</a>
+        </p>
+
+        <ul class="utility-bar__contact">
+          <li>
+            <a href="tel:+15551234567">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                <path d="M3 1h3l1.5 3.5L5.8 5.8a9 9 0 004.4 4.4l1.3-1.7L15 10v3a2 2 0 01-2 2A12 12 0 011 3a2 2 0 012-2z" fill="currentColor" />
+              </svg>
+              <span>Call us: <strong>(555) 123-4567</strong></span>
+            </a>
+          </li>
+          <li aria-hidden="true" class="utility-bar__divider"></li>
+          <li>
+            <a href="mailto:hello@example.com">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                <path d="M1 3h14v10H1z" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M1.5 3.5L8 8.5l6.5-5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+              <span>Send mail: <strong>hello@example.com</strong></span>
+            </a>
+          </li>
+        </ul>
+
+      </div>
     </div>
 
-    <div class="hero__content">
-      <p class="hero__eyebrow">Kitchen Remodeling</p>
-      <h1 class="hero__title">Watch Your Kitchen<br />Come Back to Life</h1>
-      <p class="hero__sub">Scroll to see the transformation.</p>
-      <a class="hero__cta" href="#after">Get a Free Estimate</a>
+    <!-- Main bar: sticks to the top of the viewport once scrolling starts. -->
+    <div class="main-bar">
+      <div class="main-bar__inner">
+
+        <a class="site-logo" href="/" aria-label="Remodeling Co. home">
+          <svg class="site-logo__mark" viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" focusable="false">
+            <path d="M16 2.5 2.5 10.2v11.6L16 29.5l13.5-7.7V10.2z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" />
+            <path d="M16 11.2 9.8 14.8v7.1L16 25.5l6.2-3.6v-7.1z" fill="currentColor" />
+          </svg>
+          <span class="site-logo__text">Remodel<span>Co.</span></span>
+        </a>
+
+        <nav class="primary-nav" id="primaryNav" aria-label="Main">
+          <ul class="primary-nav__list">
+            <li><a class="primary-nav__link" href="#hero">Home</a></li>
+            <li><a class="primary-nav__link" href="#about">About</a></li>
+
+            <li class="primary-nav__item--has-submenu">
+              <button
+                class="primary-nav__link submenu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="servicesSubmenu">
+                Services
+                <svg class="submenu-toggle__chevron" viewBox="0 0 12 8" width="11" height="7" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </button>
+              <div class="submenu" id="servicesSubmenu">
+                <ul class="submenu__list">
+                  <li><a class="submenu__link" href="#kitchen">Kitchen Remodeling</a></li>
+                  <li><a class="submenu__link" href="#bathroom">Bathroom Remodeling</a></li>
+                  <li><a class="submenu__link" href="#patio">Patio Remodeling</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <li><a class="primary-nav__link" href="#gallery">Gallery</a></li>
+            <li><a class="primary-nav__link" href="#contact">Contact</a></li>
+
+            <li class="primary-nav__cta">
+              <a class="btn btn--dark" href="#contact">Book a Consultation</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="main-bar__actions">
+          <a class="btn btn--dark main-bar__cta" href="#contact">
+            Book a Consultation
+            <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false">
+              <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+            </svg>
+          </a>
+
+          <button
+            class="nav-toggle"
+            id="navToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="primaryNav">
+            <span class="nav-toggle__bars" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
+            <span class="visually-hidden">Menu</span>
+          </button>
+        </div>
+
+      </div>
     </div>
 
-    <div class="hero__cue" id="scrollCue" aria-hidden="true">
-      <span class="hero__cue-text">Scroll</span>
-      <span class="hero__cue-line"></span>
-    </div>
+  </header>
 
-    <div class="hero__loader" id="heroLoader" role="status" aria-live="polite">
-      <span class="hero__loader-bar"><i id="heroLoaderFill"></i></span>
-      <span class="hero__loader-text">Loading renovation…</span>
-    </div>
-  </section>
+  <div class="nav-backdrop" id="navBackdrop"></div>
 
-  <!-- ============ Spacer so you can scroll past the pinned hero ============ -->
-  <section class="after" id="after">
-    <h2>End of hero test</h2>
-    <p>Everything below here is placeholder — the hero above is the only thing being built.</p>
-  </section>
+  <main id="main">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/main.js"></script>
+    <!-- ==================== HERO: scroll-scrubbed renovation ==================== -->
+    <section class="hero" id="hero">
+
+      <div class="hero__media">
+
+        <!-- First frame as a responsive picture behind the video. The poster
+             attribute takes a single URL, so it cannot serve WebP with a JPG
+             fallback or a lighter mobile crop; a background picture can
+             (MigsFlow §4). Above the fold, so never lazy loaded. -->
+        <picture class="hero__fallback">
+          <source media="(min-width: 48em)" srcset="images/hero/kitchen-before.webp" type="image/webp" />
+          <source media="(min-width: 48em)" srcset="images/hero/kitchen-before.jpg" type="image/jpeg" />
+          <source srcset="images/hero/kitchen-before-m.webp" type="image/webp" />
+          <img
+            src="images/hero/kitchen-before-m.jpg"
+            alt="Dated kitchen with worn oak cabinets and old appliances before remodeling"
+            width="800"
+            height="450"
+            decoding="async"
+            fetchpriority="high" />
+        </picture>
+
+        <video
+          class="hero__video"
+          id="renovationVideo"
+          data-src-desktop="video/kitchen-renovation.mp4"
+          data-src-mobile="video/kitchen-renovation-mobile.mp4"
+          muted
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          disablepictureinpicture
+          disableremoteplayback
+          tabindex="-1"
+          aria-hidden="true"></video>
+
+        <div class="hero__scrim" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero__content">
+
+        <!-- Stacked copy. Each stage fades in and out as the scroll scrubs. -->
+        <div class="hero__stages" id="heroStages">
+          <h1 class="hero__quote" data-stage="0">We Make<br />Builds Better</h1>
+          <p class="hero__quote" data-stage="1">Because It&rsquo;s<br />What You Deserve</p>
+          <p class="hero__quote" data-stage="2">Kitchens.<br />Bathrooms. Patios.</p>
+        </div>
+
+        <!-- One real control pair, timed to fade with the quote blocks. -->
+        <div class="hero__actions" id="heroActions">
+          <a class="btn btn--primary" href="#contact">Book a Consultation</a>
+          <a class="btn btn--on-dark" href="#gallery">View Gallery</a>
+        </div>
+
+      </div>
+
+      <div class="hero__cue" id="heroCue" aria-hidden="true">
+        <span>Scroll</span>
+        <span class="hero__cue-line"></span>
+      </div>
+
+      <div class="hero__loader" id="heroLoader" role="status" aria-live="polite">
+        <span class="hero__loader-track"><span class="hero__loader-fill" id="heroLoaderFill"></span></span>
+        <span class="hero__loader-text">Loading&hellip;</span>
+      </div>
+
+    </section>
+
+    <!-- ============================ ABOUT ============================ -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+
+        <div class="about__media">
+          <picture>
+            <source media="(min-width: 64em)" srcset="images/about/about-patio.webp" type="image/webp" />
+            <source media="(min-width: 64em)" srcset="images/about/about-patio.jpg" type="image/jpeg" />
+            <source srcset="images/about/about-patio-m.webp" type="image/webp" />
+            <img
+              src="images/about/about-patio-m.jpg"
+              alt="Covered patio remodel with lounge seating, a fire feature and a pool at sunset"
+              width="640"
+              height="800"
+              loading="lazy"
+              decoding="async" />
+          </picture>
+
+          <span class="about__badge" aria-hidden="true">
+            <svg viewBox="0 0 32 32" width="40" height="40" focusable="false">
+              <path d="M16 2.5 2.5 10.2v11.6L16 29.5l13.5-7.7V10.2z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" />
+              <path d="M16 11.2 9.8 14.8v7.1L16 25.5l6.2-3.6v-7.1z" fill="currentColor" />
+            </svg>
+          </span>
+        </div>
+
+        <div class="about__content">
+          <p class="eyebrow">About Remodel Co.</p>
+          <h2>Craftsmanship That Transforms Everyday Spaces</h2>
+          <p class="about__lead">
+            Dated kitchens, tired bathrooms, patios nobody uses. We handle design,
+            demolition and finish work with one crew and one point of contact, so
+            you always know who to call.
+          </p>
+
+          <div class="about__columns">
+
+            <div class="tabs" data-tabs>
+              <div class="tabs__list" role="tablist" aria-label="What drives our work">
+                <button class="tabs__tab" type="button" role="tab" id="tab-mission" aria-controls="panel-mission" aria-selected="true" tabindex="0">Mission</button>
+                <button class="tabs__tab" type="button" role="tab" id="tab-vision" aria-controls="panel-vision" aria-selected="false" tabindex="-1">Vision</button>
+                <button class="tabs__tab" type="button" role="tab" id="tab-values" aria-controls="panel-values" aria-selected="false" tabindex="-1">Core Values</button>
+              </div>
+
+              <div class="tabs__panel" role="tabpanel" id="panel-mission" aria-labelledby="tab-mission" tabindex="0">
+                <p>
+                  To hand back a room you stop finding faults in, built on honest
+                  timelines, clean job sites and finish work that still looks right
+                  a decade from now.
+                </p>
+                <ul class="checklist">
+                  <li>Fixed-price quotes, no change-order surprises</li>
+                  <li>Licensed, insured, background-checked crews</li>
+                </ul>
+              </div>
+
+              <div class="tabs__panel" role="tabpanel" id="panel-vision" aria-labelledby="tab-vision" tabindex="0" hidden>
+                <p>
+                  To be the remodeler homeowners name before they are asked, known
+                  for kitchens, bathrooms and patios that outlast the trends they
+                  were built in.
+                </p>
+                <ul class="checklist">
+                  <li>Design-led planning before a tile is ordered</li>
+                  <li>Workmanship warranty on every project</li>
+                </ul>
+              </div>
+
+              <div class="tabs__panel" role="tabpanel" id="panel-values" aria-labelledby="tab-values" tabindex="0" hidden>
+                <p>
+                  Show up when we say we will, protect the home we are working in,
+                  and finish the last ten percent with the same care as the first.
+                </p>
+                <ul class="checklist">
+                  <li>Daily site cleanup and dust containment</li>
+                  <li>One project manager from demo to walkthrough</li>
+                </ul>
+              </div>
+
+              <a class="btn btn--primary about__cta" href="#contact">
+                Contact Us Now
+                <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false">
+                  <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                </svg>
+              </a>
+            </div>
+
+            <aside class="about__aside">
+              <figure class="about__figure">
+                <div class="about__video">
+                  <picture class="about__video-still">
+                    <source media="(min-width: 64em)" srcset="images/about/about-bathroom-poster.webp" type="image/webp" />
+                    <source media="(min-width: 64em)" srcset="images/about/about-bathroom-poster.jpg" type="image/jpeg" />
+                    <source srcset="images/about/about-bathroom-poster-m.webp" type="image/webp" />
+                    <img
+                      src="images/about/about-bathroom-poster-m.jpg"
+                      alt="Dated bathroom with oak vanity and tiled tub surround before remodeling"
+                      width="560"
+                      height="315"
+                      loading="lazy"
+                      decoding="async" />
+                  </picture>
+
+                  <video
+                    class="about__video-el"
+                    data-autoplay-inview
+                    data-src-desktop="video/bathroom-remodel-about.mp4"
+                    data-src-mobile="video/bathroom-remodel-about-mobile.mp4"
+                    muted
+                    loop
+                    playsinline
+                    webkit-playsinline
+                    preload="none"
+                    disablepictureinpicture
+                    disableremoteplayback
+                    tabindex="-1"
+                    aria-hidden="true"></video>
+                </div>
+                <figcaption>
+                  Watch a dated bathroom become a spa-grade retreat, start to finish.
+                </figcaption>
+              </figure>
+
+              <p class="about__stat">
+                <span class="about__stat-number">25</span>
+                <span class="about__stat-label">Years Of<br />Experience</span>
+              </p>
+            </aside>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Placeholder anchors so the hero CTAs resolve during the build. -->
+    <section class="section" id="gallery">
+      <div class="container">
+        <h2>Gallery</h2>
+        <p class="text-muted">Section not built yet.</p>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <p class="text-muted">Section not built yet.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="javascript/vendor/gsap.min.js" defer></script>
+  <script src="javascript/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="javascript/global.js" defer></script>
+  <script src="javascript/script.js" defer></script>
 </body>
 </html>

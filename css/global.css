@@ -1,0 +1,839 @@
+/* ========================================================================
+   GLOBAL.CSS
+   Site-wide system: fonts, colors, resets, shared typography, buttons,
+   containers. Reusable across every page. Mobile-first (MigsFlow §12).
+   ======================================================================== */
+
+/* ------------------------------------------------------------ 1. FONTS --
+   Self-hosted per MigsFlow §5. Latin subset only, swap enabled.
+   ----------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Anton";
+  src: url("../fonts/anton-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -------------------------------------------------------- 2. VARIABLES -- */
+
+:root {
+  /* Brand palette */
+  --color-black: #111111;
+  --color-white: #ffffff;
+  --color-gold: #fed403;
+  --color-gold-dark: #a1801a;
+  --color-grey: #6b6b6b;
+  --color-grey-light: #e6e4e0;
+
+  /* Typography. Fallbacks are metric-close to limit layout shift. */
+  --font-heading: "Anton", "Arial Narrow", "Haettenschweiler", Impact, sans-serif;
+  --font-body: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* Fluid type scale */
+  --step-h1: clamp(2.5rem, 9vw, 6rem);
+  --step-h2: clamp(1.9rem, 5.5vw, 3.5rem);
+  --step-h3: clamp(1.4rem, 3.5vw, 2.25rem);
+  --step-body: clamp(0.75rem, 1.6vw, 0.95rem);
+  --step-small: clamp(0.8rem, 1.2vw, 0.9rem);
+
+  /* Spacing + layout */
+  --space-section: clamp(4rem, 10vw, 8rem);
+  --container-max: 75rem;
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+
+  /* Header tiers. Fixed heights keep the sticky offset exact. */
+  --utility-height: 2.75rem;
+  --header-height: 4.5rem;
+
+  /* Motion */
+  --sweep-duration: 450ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ------------------------------------------------------------ 3. RESET -- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* No scroll-behavior: smooth. It fights ScrollTrigger, and with a pinned
+     hero it is actively harmful: clicking a nav anchor would smooth-scroll
+     through the whole pinned section, scrubbing the entire video on the way
+     past. Anchor jumps are instant instead. */
+  /* clip, never hidden. overflow-x: hidden forces overflow-y to compute to
+     auto, which turns the element into a scroll container - that breaks
+     ScrollTrigger's pinning, because it stops using position: fixed and the
+     pinned hero scrolls away leaving blank pin-spacer behind. clip stops
+     horizontal overflow without creating a scroll container. */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select { font: inherit; color: inherit; }
+
+/* ------------------------------------------------------- 4. TYPOGRAPHY -- */
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: var(--step-h1); }
+h2 { font-size: var(--step-h2); }
+h3 { font-size: var(--step-h3); }
+h4 { font-size: clamp(1.15rem, 2.5vw, 1.5rem); }
+h5 { font-size: clamp(1rem, 2vw, 1.2rem); }
+
+p { margin: 0 0 1rem; }
+p:last-child { margin-bottom: 0; }
+
+a { color: inherit; }
+
+.text-muted { color: var(--color-grey); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--step-small);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* ------------------------------------------------------- 5. CONTAINERS -- */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: var(--space-section); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------- 6. BUTTONS --
+   MigsFlow §13: interactive fill sweeps left-to-right via a pseudo-element.
+   Text color never changes mid-sweep, so contrast stays accessible across
+   the whole transition.
+   ----------------------------------------------------------------------- */
+
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 3.125rem;
+  padding: 0.875rem 1.75rem;
+  border: 2px solid transparent;
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: var(--step-small);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--sweep-duration) var(--ease-out);
+}
+
+/* The sweeping fill. Scales from the left edge on hover/focus/active. */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--sweep-duration) var(--ease-out);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before,
+.btn:active::before { transform: scaleX(1); }
+
+/* Primary: gold fill sweeping to deep gold. Black text on both. */
+.btn--primary {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.btn--primary::before { background-color: var(--color-white); }
+
+/* Secondary on light backgrounds: outlined, sweeping to gold. */
+.btn--secondary {
+  background-color: transparent;
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+
+.btn--secondary::before { background-color: var(--color-gold); }
+
+.btn--secondary:hover,
+.btn--secondary:focus-visible { border-color: var(--color-gold); }
+
+/* Dark: black fill lifting to charcoal. White text stays legible across the
+   whole sweep, which a gold fill could not manage at this text size. */
+.btn--dark {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.btn--dark::before { background-color: #2e2e2e; }
+
+.btn--dark svg { transition: transform 300ms var(--ease-out); }
+
+.btn--dark:hover svg,
+.btn--dark:focus-visible svg { transform: translate(0.125rem, -0.125rem); }
+
+/* Secondary over imagery/video: white outline sweeping to near-black. */
+.btn--on-dark {
+  background-color: transparent;
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+
+.btn--on-dark::before { background-color: rgba(0, 0, 0, 0.85); }
+
+/* ----------------------------------------------------- 7. FOCUS STATES -- */
+
+:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.btn--primary:focus-visible { outline-color: var(--color-black); }
+
+/* -------------------------------------------------- 8. REDUCED MOTION --- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  /* Swap the sweep for an instant, equally accessible state change. */
+  .btn::before { transition: none; }
+  .btn:hover::before,
+  .btn:focus-visible::before { transform: scaleX(1); }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------- 9. SKIP LINK ------ */
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-101%);
+  transition: transform 200ms var(--ease-out);
+}
+
+.skip-link:focus-visible { transform: translateY(0); }
+
+
+/* -------------------------------------------------- 10. SITE HEADER -----
+   Two tiers: a gold utility bar above a white main bar.
+
+   The whole header is sticky with a negative top offset equal to the utility
+   bar's height. That scrolls the gold bar out of view and leaves the main bar
+   pinned to the top of the viewport, with no JavaScript and no scroll
+   listener. It relies on the utility bar having a known height, which is why
+   that height is a fixed variable rather than content-driven.
+   ------------------------------------------------------------------------ */
+
+.site-header {
+  position: sticky;
+  top: calc(-1 * var(--utility-height));
+  z-index: 100;
+  width: 100%;
+}
+
+/* ------------------------------------------------------- Utility bar --- */
+
+.utility-bar {
+  height: var(--utility-height);
+  overflow: hidden;
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  font-size: 0.8125rem;
+}
+
+.utility-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  height: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* The pitch is the first thing to go when space runs out. */
+.utility-bar__pitch { display: none; }
+
+.utility-bar__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-right: 0.5rem;
+  background-color: var(--color-black);
+  color: var(--color-gold);
+  vertical-align: middle;
+}
+
+.utility-bar__pitch a {
+  margin-left: 0.375rem;
+  font-weight: 600;
+  text-underline-offset: 0.1875rem;
+}
+
+.utility-bar__contact {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.utility-bar__contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 250ms var(--ease-out);
+}
+
+.utility-bar__contact a:hover,
+.utility-bar__contact a:focus-visible { opacity: 0.7; }
+
+.utility-bar__contact svg { flex: none; }
+
+.utility-bar__divider {
+  width: 1px;
+  height: 1rem;
+  background-color: rgba(17, 17, 17, 0.28);
+}
+
+/* Only the phone number survives on the narrowest screens. */
+.utility-bar__contact li:last-child,
+.utility-bar__divider { display: none; }
+
+/* ---------------------------------------------------------- Main bar --- */
+
+.main-bar {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-grey-light);
+}
+
+.main-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--header-height);
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.main-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* The header CTA is duplicated inside the mobile drawer, so it is hidden
+   here until there is room for it on the bar itself. */
+.main-bar__cta { display: none; }
+
+/* ------------------------------------------------------------- Logo ---- */
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-logo__mark {
+  flex: none;
+  color: var(--color-gold);
+}
+
+.site-logo__text {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.site-logo__text span { color: var(--color-gold); }
+
+/* --------------------------------------------------- Hamburger button -- */
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-grey-light);
+  border-radius: 50%;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: border-color 250ms var(--ease-out), background-color 250ms var(--ease-out);
+}
+
+.nav-toggle:hover,
+.nav-toggle:focus-visible { border-color: var(--color-gold); }
+
+.nav-toggle__bars {
+  display: grid;
+  gap: 0.25rem;
+  width: 1.125rem;
+}
+
+.nav-toggle__bars span {
+  display: block;
+  height: 2px;
+  background-color: currentColor;
+  transition:
+    transform 300ms var(--ease-out),
+    opacity 200ms var(--ease-out);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(1) {
+  transform: translateY(0.375rem) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(2) { opacity: 0; }
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars span:nth-child(3) {
+  transform: translateY(-0.375rem) rotate(-45deg);
+}
+
+/* ------------------------------------------------- Mobile nav drawer --- */
+
+.primary-nav {
+  position: fixed;
+  /* JS sets this from the header's live bottom edge, which changes as the
+     utility bar scrolls away. */
+  top: var(--drawer-top, var(--header-height));
+  right: 0;
+  width: min(78vw, 20rem);
+  height: calc(100vh - var(--drawer-top, var(--header-height)));
+  height: calc(100dvh - var(--drawer-top, var(--header-height)));
+  padding: 1.25rem 1.25rem calc(2.5rem + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  box-shadow: -0.5rem 0 2rem rgba(17, 17, 17, 0.16);
+  /* Kept out of the accessibility tree and the tab order while closed. */
+  visibility: hidden;
+  transform: translateX(100%);
+  transition:
+    transform 320ms var(--ease-out),
+    visibility 320ms var(--ease-out);
+}
+
+.primary-nav.is-open {
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background-color: rgba(17, 17, 17, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 320ms var(--ease-out),
+    visibility 320ms var(--ease-out);
+}
+
+.nav-backdrop.is-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.primary-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.primary-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.5rem 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--color-grey-light);
+  color: inherit;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 250ms var(--ease-out);
+}
+
+.primary-nav__link:hover,
+.primary-nav__link:focus-visible { color: var(--color-gold); }
+
+.primary-nav__cta { margin-top: 1.25rem; }
+
+.primary-nav__cta .btn {
+  width: 100%;
+  padding-inline: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+/* --------------------------------------------------------- Submenu ----- */
+/* MigsFlow §13: nested links stay collapsed until the parent is tapped. */
+
+.submenu-toggle__chevron {
+  flex: none;
+  transition: transform 300ms var(--ease-out);
+}
+
+.submenu-toggle[aria-expanded="true"] .submenu-toggle__chevron {
+  transform: rotate(180deg);
+}
+
+/* The 0fr -> 1fr grid collapse only sizes the ONE explicit row it declares,
+   so the list must be a single child. Putting the <li>s here directly would
+   drop items two and three into auto-sized implicit rows that never collapse. */
+.submenu {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms var(--ease-out);
+}
+
+.submenu-toggle[aria-expanded="true"] + .submenu { grid-template-rows: 1fr; }
+
+.submenu__list {
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+}
+
+.submenu__link {
+  display: block;
+  padding: 0.75rem 0 0.75rem 1rem;
+  border-left: 2px solid var(--color-grey-light);
+  color: var(--color-grey);
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 250ms var(--ease-out), border-color 250ms var(--ease-out);
+}
+
+.submenu__link:hover,
+.submenu__link:focus-visible {
+  color: var(--color-black);
+  border-left-color: var(--color-gold);
+}
+
+/* ===================== TABLET: restore the email address ============== */
+
+@media (min-width: 40em) {
+  .utility-bar__contact li:last-child,
+  .utility-bar__divider { display: block; }
+
+  .utility-bar__divider { flex: none; }
+}
+
+/* ===================== DESKTOP: full bar, inline nav ================== */
+
+@media (min-width: 64em) {
+
+  :root {
+    --utility-height: 3rem;
+    --header-height: 5.5rem;
+  }
+
+  .utility-bar__inner { justify-content: space-between; }
+
+  .utility-bar__pitch {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .utility-bar__contact { gap: 1.5rem; }
+
+  .nav-toggle { display: none; }
+  .main-bar__cta { display: inline-flex; }
+
+  /* The drawer becomes an ordinary centred nav row. */
+  .primary-nav {
+    position: static;
+    flex: 1;
+    width: auto;
+    height: auto;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .primary-nav__list {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .primary-nav__cta { display: none; }
+
+  .primary-nav__item--has-submenu { position: relative; }
+
+  .primary-nav__link {
+    width: auto;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 0;
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
+  .nav-backdrop { display: none; }
+
+  /* Dropdown: animated with opacity and transform only. */
+  .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: block;
+    min-width: 15rem;
+    background-color: var(--color-white);
+    border-top: 2px solid var(--color-gold);
+    box-shadow: 0 0.75rem 2rem rgba(17, 17, 17, 0.14);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 250ms var(--ease-out),
+      transform 250ms var(--ease-out),
+      visibility 250ms var(--ease-out);
+  }
+
+  .submenu-toggle[aria-expanded="true"] + .submenu {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .submenu__list {
+    padding: 0.5rem 0;
+    overflow: visible;
+  }
+
+  .submenu__link {
+    padding: 0.625rem 1.25rem;
+    border-left: 2px solid transparent;
+    color: var(--color-black);
+  }
+}
+
+/* ------------------------------------------------------- 11. TABS -------
+   Reusable tabbed panels. The Gallery reuses this for its photo/video
+   switch, so it lives here rather than in a page stylesheet.
+   ------------------------------------------------------------------------ */
+
+.tabs__list {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-grey-light);
+}
+
+.tabs__tab {
+  position: relative;
+  padding: 0.75rem 0.25rem;
+  margin-bottom: -1px;
+  background: none;
+  border: 0;
+  color: var(--color-grey);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: color 250ms var(--ease-out);
+}
+
+/* Underline scales from the centre rather than animating layout. */
+.tabs__tab::after {
+  content: "";
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0;
+  left: 0.25rem;
+  height: 2px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transition: transform 250ms var(--ease-out);
+}
+
+.tabs__tab:hover { color: var(--color-black); }
+
+.tabs__tab[aria-selected="true"] {
+  color: var(--color-gold);
+}
+
+.tabs__tab[aria-selected="true"]::after { transform: scaleX(1); }
+
+.tabs__panel { padding-top: 1.5rem; }
+
+.tabs__panel[hidden] { display: none; }
+
+/* --------------------------------------------------- 12. CHECKLIST ------ */
+
+.checklist {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 1.875rem;
+  margin-bottom: 0.625rem;
+  font-size: 0.9375rem;
+}
+
+.checklist li:last-child { margin-bottom: 0; }
+
+/* Check mark drawn in CSS: no icon font, no extra request. */
+.checklist li::before {
+  content: "";
+  position: absolute;
+  top: 0.4375rem;
+  left: 0;
+  width: 0.75rem;
+  height: 0.4375rem;
+  border-left: 2px solid var(--color-gold);
+  border-bottom: 2px solid var(--color-gold);
+  transform: rotate(-45deg);
+}
+
+@media (min-width: 64em) {
+  .tabs__list { gap: 1.75rem; }
+  .tabs__tab { font-size: 1rem; }
+}
+
+/* Body scroll lock while the mobile drawer is open. */
+body.is-menu-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-nav,
+  .nav-backdrop,
+  .submenu,
+  .nav-toggle__bars span,
+  .submenu-toggle__chevron,
+  .btn--dark svg,
+  .skip-link { transition: none; }
+}

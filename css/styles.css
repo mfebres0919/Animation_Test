@@ -1,0 +1,386 @@
+/* ========================================================================
+   STYLES.CSS — Homepage only.
+   Anything reusable across pages belongs in global.css instead.
+   Mobile-first: base rules are the phone layout, min-width queries enhance.
+   ======================================================================== */
+
+/* ============================================================ HERO ==== */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-black);
+}
+
+/* svh avoids the jump when mobile browser chrome collapses. */
+@supports (height: 100svh) {
+  .hero { height: 100svh; }
+}
+
+/* ------------------------------------------------------- Media layer -- */
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* First-frame still, visible immediately while the video downloads. */
+.hero__fallback,
+.hero__fallback img,
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.hero__video {
+  pointer-events: none;
+  /* Promotes the video to its own compositor layer for smoother seeking. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Revealed once there is decoded data, so the still is never replaced by
+     a flash of empty black. */
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out);
+}
+
+.hero__video.is-ready { opacity: 1; }
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba(17, 17, 17, 0.78) 0%,
+      rgba(17, 17, 17, 0.28) 45%,
+      rgba(17, 17, 17, 0.48) 100%
+    );
+}
+
+/* ------------------------------------------------------------- Copy --- */
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-inline: var(--gutter);
+  /* Clears the sticky main bar, which overlays the hero while it is pinned. */
+  padding-top: var(--header-height);
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  text-align: center;
+  color: var(--color-white);
+}
+
+/* Quotes stack in the same space so they cross-fade without shifting. */
+.hero__stages {
+  position: relative;
+  display: grid;
+  /* minmax(0, 1fr) stops the track growing to the min-content width of the
+     longest word, which would push the centred text off-axis. Sizing is in
+     rem, not ch: this element inherits body Poppins, so ch here would
+     measure the wrong font entirely. */
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 22rem;
+}
+
+.hero__quote {
+  grid-area: 1 / 1;
+  min-width: 0;
+  margin: 0;
+  align-self: center;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--step-h1);
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  text-shadow: 0 0.125rem 1.875rem rgba(0, 0, 0, 0.45);
+  /* JS reveals these; stages 2+ start hidden so there is no flash of
+     stacked text before GSAP initialises. */
+  will-change: opacity, transform;
+}
+
+.hero__quote[data-stage="1"],
+.hero__quote[data-stage="2"] { opacity: 0; }
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.875rem;
+  width: 100%;
+  max-width: 20rem;
+  margin-top: clamp(1.75rem, 5vw, 2.75rem);
+  will-change: opacity, transform;
+}
+
+/* ------------------------------------------------------- Scroll cue --- */
+
+.hero__cue {
+  position: absolute;
+  left: 50%;
+  bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--color-white);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.hero__cue-line {
+  width: 1px;
+  height: 2rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+}
+
+/* ----------------------------------------------------------- Loader --- */
+
+.hero__loader {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 0.1875rem;
+  background-color: rgba(255, 255, 255, 0.22);
+  transition: opacity 500ms var(--ease-out), visibility 500ms var(--ease-out);
+}
+
+.hero__loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero__loader-track {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Kept for assistive technology; the bar itself carries the meaning. */
+.hero__loader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.hero__loader-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-gold);
+  /* JS sets --progress (0-1) rather than writing inline styles. */
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left center;
+  transition: transform 300ms linear;
+}
+
+/* =================================================== TABLET AND UP ==== */
+
+@media (min-width: 48em) {
+  .hero__stages { max-width: 34rem; }
+
+  .hero__actions {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+    max-width: none;
+  }
+
+  .hero__actions .btn { min-width: 13.75rem; }
+
+  .hero__cue { bottom: calc(1.75rem + env(safe-area-inset-bottom)); }
+  .hero__cue-line { height: 2.75rem; }
+}
+
+/* ================================================== DESKTOP AND UP ==== */
+
+@media (min-width: 64em) {
+  .hero__stages { max-width: 46rem; }
+}
+
+/* ================================================= ULTRAWIDE AND UP ==== */
+
+@media (min-width: 100em) {
+  .hero__quote { font-size: clamp(6rem, 6vw, 8rem); }
+  .hero__stages { max-width: 60rem; }
+}
+
+/* ======================= SHORT LANDSCAPE PHONES ======================= */
+
+@media (max-height: 32.5em) and (orientation: landscape) {
+  .hero__quote { font-size: clamp(1.75rem, 6vh, 2.75rem); }
+  .hero__actions { flex-direction: row; margin-top: 1rem; }
+  .hero__cue { display: none; }
+}
+
+/* ===================== REDUCED MOTION ================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__cue { display: none; }
+
+  /* No scrub, no cross-fade: the first quote and the CTAs simply stay put. */
+  .hero__quote[data-stage="1"],
+  .hero__quote[data-stage="2"] { display: none; }
+}
+
+/* ============================================================ ABOUT ==== */
+
+.about__grid {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4rem);
+}
+
+/* ------------------------------------------------------ Left visual ---- */
+
+.about__media { position: relative; }
+
+.about__media img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.about__badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(4.5rem, 14vw, 6.25rem);
+  height: clamp(4.5rem, 14vw, 6.25rem);
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+/* ---------------------------------------------------------- Content ---- */
+
+.about__content h2 { margin: 0.75rem 0 0; }
+
+.about__lead {
+  margin-top: 1.25rem;
+  color: var(--color-grey);
+  font-size: clamp(1rem, 2vw, 1.0625rem);
+}
+
+.about__columns {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+  margin-top: clamp(2rem, 5vw, 2.75rem);
+}
+
+.about__cta { margin-top: 1.75rem; }
+
+/* ------------------------------------------------- Aside: video + stat -- */
+
+.about__figure { margin: 0; }
+
+/* Still sits behind the video so there is never a flash of empty black. */
+.about__video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: var(--color-grey-light);
+}
+
+
+.about__video-still,
+.about__video-still img,
+.about__video-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__video-el {
+  opacity: 0;
+  transition: opacity 500ms var(--ease-out);
+}
+
+.about__video-el.is-ready { opacity: 1; }
+
+.about__figure figcaption {
+  margin-top: 1rem;
+  color: var(--color-grey);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.about__stat {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: 1.75rem 0 0;
+}
+
+.about__stat-number {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 9vw, 4.25rem);
+  line-height: 0.85;
+}
+
+.about__stat-label {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+/* ======================= ABOUT: TABLET AND UP ========================== */
+
+@media (min-width: 48em) {
+  .about__columns {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* ====================== ABOUT: DESKTOP AND UP ========================== */
+
+@media (min-width: 64em) {
+  .about__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+
+  .about__media {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+}
+
+/* ScrollTrigger wraps the pinned hero in a .pin-spacer it generates itself.
+   That spacer has no background, so any frame where it is briefly exposed
+   flashes the white page behind it. Matching it to the hero makes such a
+   frame invisible. The hero is the only pinned element on this page. */
+.pin-spacer { background-color: var(--color-black); }
