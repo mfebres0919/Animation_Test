@@ -316,3 +316,65 @@
     history.scrollRestoration = "manual";
   }
 })();
+
+/* ========================================================================
+   SERVICES — hovering or focusing a row cross-fades the matching image.
+   ======================================================================== */
+
+(function () {
+  "use strict";
+
+  var section = document.getElementById("services");
+  if (!section) return;
+
+  var items = section.querySelectorAll(".services__item");
+  var images = section.querySelectorAll(".services__image");
+  if (!items.length || !images.length) return;
+
+  var current = null;
+
+  function activate(key) {
+    if (!key || key === current) return;
+    current = key;
+
+    items.forEach(function (item) {
+      var isActive = item.getAttribute("data-service") === key;
+      item.classList.toggle("is-active", isActive);
+      // aria-pressed and the class are set together so the accessible state
+      // never drifts from the visible one.
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+
+    images.forEach(function (image) {
+      var isActive = image.getAttribute("data-service") === key;
+      image.classList.toggle("is-active", isActive);
+      // Only the visible image stays in the accessibility tree, so a screen
+      // reader is not read all three alt texts at once.
+      if (isActive) image.removeAttribute("aria-hidden");
+      else image.setAttribute("aria-hidden", "true");
+    });
+  }
+
+  items.forEach(function (item) {
+    var key = item.getAttribute("data-service");
+
+    // Pointer and keyboard reach the same behaviour: hovering and focusing
+    // both preview, so a keyboard user is never shown the wrong image.
+    item.addEventListener("mouseenter", function () { activate(key); });
+    item.addEventListener("focus", function () { activate(key); });
+    item.addEventListener("click", function () { activate(key); });
+  });
+
+  // The Services dropdown in the nav links to #kitchen / #bathroom / #patio,
+  // which are the list items here. Honour that on arrival and on later hash
+  // changes so the right service is showing when the user lands.
+  function activateFromHash() {
+    var key = window.location.hash.replace("#", "");
+    if (section.querySelector('[data-service="' + key + '"]')) activate(key);
+  }
+
+  window.addEventListener("hashchange", activateFromHash);
+  activateFromHash();
+
+  current = current || items[0].getAttribute("data-service");
+})();

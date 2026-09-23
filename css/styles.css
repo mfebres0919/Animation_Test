@@ -384,3 +384,218 @@
    flashes the white page behind it. Matching it to the hero makes such a
    frame invisible. The hero is the only pinned element on this page. */
 .pin-spacer { background-color: var(--color-black); }
+
+/* ========================================================= SERVICES ==== */
+
+.services {
+  --divider-height: clamp(2rem, 5vw, 4.5rem);
+
+  position: relative;
+  /* Matches the crosshatch tile's own fill, so the section still reads
+     correctly in the moment before the SVG loads. */
+  background-color: #030000;
+  color: var(--color-white);
+  overflow: hidden;
+  /* Extra top padding so the heading clears the divider hanging into it. */
+  padding-top: calc(var(--space-section) + var(--divider-height));
+}
+
+/* Tiled at the SVG's own 600px cell so the crosshatch keeps a constant
+   scale at every viewport width, rather than stretching with the section. */
+.services__pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("../images/svg-backgrounds/alternating-crosshatch.svg");
+  background-repeat: repeat;
+  background-size: 37.5rem 37.5rem;
+}
+
+/* The shape has a solid top edge with peaks hanging down, so it sits at the
+   top of this section wearing the colour of the section above it. Masking
+   rather than recolouring the file keeps that colour tied to the token, and
+   the source SVG stays untouched. */
+.services__divider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: var(--divider-height);
+  pointer-events: none;
+}
+
+@supports ((mask-size: 100% 100%) or (-webkit-mask-size: 100% 100%)) {
+  .services__divider {
+    background-color: var(--color-white);
+    -webkit-mask-image: url("../images/svg-dividers/intersecting-pyramids.svg");
+    mask-image: url("../images/svg-dividers/intersecting-pyramids.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+}
+
+.services__inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* ------------------------------------------------------------- Head --- */
+
+.services__head {
+  display: grid;
+  gap: 1.75rem;
+  padding-bottom: clamp(2rem, 5vw, 3rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.services__head h2 { margin: 0.75rem 0 0; }
+
+.services__lead {
+  margin-top: 1rem;
+  max-width: 44ch;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.services__cta { justify-self: start; }
+
+/* ------------------------------------------------------------- Body --- */
+
+.services__body {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ------------------------------------------------- Cross-fading visual -- */
+
+.services__visual {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 0.875rem;
+  background-color: #1a1a1a;
+}
+
+.services__image {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* Opacity and scale only: both composite on the GPU, so the swap stays
+     smooth even while the hero video is still decoding. */
+  transform: scale(1.04);
+  transition:
+    opacity 550ms var(--ease-out),
+    transform 700ms var(--ease-out);
+}
+
+.services__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.services__image.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* -------------------------------------------------------------- List --- */
+
+.services__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.services__list li + li { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+
+.services__item {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.25rem);
+  width: 100%;
+  padding: clamp(1.125rem, 2.5vw, 1.5rem) clamp(0.875rem, 2vw, 1.5rem);
+  background: none;
+  border: 0;
+  border-radius: 0.5rem;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background-color 400ms var(--ease-out),
+    color 400ms var(--ease-out);
+}
+
+.services__num {
+  flex: none;
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 400ms var(--ease-out);
+}
+
+.services__name {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 3.5vw, 1.9rem);
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.services__arrow {
+  flex: none;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 400ms var(--ease-out), transform 400ms var(--ease-out);
+}
+
+/* Active state is driven by the class, which JS keeps in step with
+   aria-pressed so the two never disagree. */
+.services__item.is-active {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.services__item.is-active .services__num { color: rgba(17, 17, 17, 0.55); }
+
+.services__item.is-active .services__arrow {
+  color: var(--color-black);
+  transform: translate(0.1875rem, -0.1875rem);
+}
+
+/* ===================== SERVICES: TABLET AND UP ======================== */
+
+@media (min-width: 48em) {
+  .services__head {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  .services__cta { justify-self: end; }
+}
+
+/* ==================== SERVICES: DESKTOP AND UP ======================== */
+
+@media (min-width: 64em) {
+  .services__body {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+
+  .services__visual { position: sticky; top: calc(var(--header-height) + 2rem); }
+}
+
+/* Reduced motion: swap instantly rather than cross-fading. */
+@media (prefers-reduced-motion: reduce) {
+  .services__image,
+  .services__item,
+  .services__num,
+  .services__arrow { transition: none; }
+
+  .services__image { transform: none; }
+  .services__image.is-active { transform: none; }
+}

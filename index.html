@@ -337,6 +337,94 @@
       </div>
     </section>
 
+    <!-- =========================== SERVICES =========================== -->
+    <section class="section services" id="services">
+
+      <!-- Tiled crosshatch background. -->
+      <div class="services__pattern" aria-hidden="true"></div>
+
+      <!-- Transition from the white About section above. Coloured white and
+           masked to the pyramid shape, so it reads as the section above
+           dripping into this one. -->
+      <div class="services__divider" aria-hidden="true"></div>
+
+      <div class="container services__inner">
+
+        <header class="services__head">
+          <div class="services__intro">
+            <p class="eyebrow">Our Remodeling Services</p>
+            <h2>Built For The Rooms You Use Most</h2>
+            <p class="services__lead">
+              Three specialities, one crew. Pick the room and we will walk you
+              through scope, timeline and cost before anything is torn out.
+            </p>
+          </div>
+
+          <a class="btn btn--primary services__cta" href="#contact">
+            Explore Services
+            <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false">
+              <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+            </svg>
+          </a>
+        </header>
+
+        <div class="services__body">
+
+          <div class="services__visual">
+          <picture class="services__image is-active" data-service="kitchen">
+            <source media="(min-width: 48em)" srcset="images/services/kitchen.webp" type="image/webp" />
+            <source media="(min-width: 48em)" srcset="images/services/kitchen.jpg" type="image/jpeg" />
+            <source srcset="images/services/kitchen-m.webp" type="image/webp" />
+            <img src="images/services/kitchen-m.jpg" alt="Modern kitchen remodel with dark cabinetry and a marble island" width="640" height="480" loading="lazy" decoding="async" />
+          </picture>
+          <picture class="services__image" data-service="bathroom" aria-hidden="true">
+            <source media="(min-width: 48em)" srcset="images/services/bathroom.webp" type="image/webp" />
+            <source media="(min-width: 48em)" srcset="images/services/bathroom.jpg" type="image/jpeg" />
+            <source srcset="images/services/bathroom-m.webp" type="image/webp" />
+            <img src="images/services/bathroom-m.jpg" alt="Renovated bathroom with a walk-in glass shower and freestanding tub" width="640" height="480" loading="lazy" decoding="async" />
+          </picture>
+          <picture class="services__image" data-service="patio" aria-hidden="true">
+            <source media="(min-width: 48em)" srcset="images/services/patio.webp" type="image/webp" />
+            <source media="(min-width: 48em)" srcset="images/services/patio.jpg" type="image/jpeg" />
+            <source srcset="images/services/patio-m.webp" type="image/webp" />
+            <img src="images/services/patio-m.jpg" alt="Covered patio with lounge seating and a pool at sunset" width="640" height="480" loading="lazy" decoding="async" />
+          </picture>
+          </div>
+
+          <ul class="services__list">
+            <li id="kitchen">
+              <button class="services__item is-active" type="button" data-service="kitchen" aria-pressed="true">
+                <span class="services__num">01</span>
+                <span class="services__name">Kitchen Remodeling</span>
+                <svg class="services__arrow" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false">
+                  <path d="M3 11 11 3M4.5 3H11v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                </svg>
+              </button>
+            </li>
+            <li id="bathroom">
+              <button class="services__item" type="button" data-service="bathroom" aria-pressed="false">
+                <span class="services__num">02</span>
+                <span class="services__name">Bathroom Remodeling</span>
+                <svg class="services__arrow" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false">
+                  <path d="M3 11 11 3M4.5 3H11v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                </svg>
+              </button>
+            </li>
+            <li id="patio">
+              <button class="services__item" type="button" data-service="patio" aria-pressed="false">
+                <span class="services__num">03</span>
+                <span class="services__name">Patio Remodeling</span>
+                <svg class="services__arrow" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false">
+                  <path d="M3 11 11 3M4.5 3H11v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                </svg>
+              </button>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </section>
+
     <!-- Placeholder anchors so the hero CTAs resolve during the build. -->
     <section class="section" id="gallery">
       <div class="container">
