@@ -11,6 +11,13 @@
 
   position: relative;
   width: 100%;
+  /* Pulled up under the two-tier header. Sitting below it cost a full
+     header's worth of viewport: the trust bar fell off the bottom, and the
+     pin could not engage until the gold bar had been scrolled away, so the
+     animation only began after ~140px of dead scrolling. Starting at the
+     very top means the hero fills the screen on first paint and the scrub
+     starts from the first pixel of scroll. */
+  margin-top: calc(-1 * (var(--utility-height) + var(--header-height) + var(--header-border)));
   height: 100vh;
   overflow: hidden;
   background-color: var(--color-black);

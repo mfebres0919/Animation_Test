@@ -62,9 +62,12 @@
   --container-max: 75rem;
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
 
-  /* Header tiers. Fixed heights keep the sticky offset exact. */
+  /* Header tiers. Fixed heights keep the sticky offset exact.
+     --header-border is part of the header's real height, so anything
+     measuring against the header has to account for it too. */
   --utility-height: 2.75rem;
   --header-height: 4.5rem;
+  --header-border: 1px;
 
   /* Motion */
   --sweep-duration: 450ms;
@@ -419,7 +422,7 @@ a { color: inherit; }
 
 .main-bar {
   background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-grey-light);
+  border-bottom: var(--header-border) solid var(--color-grey-light);
 }
 
 .main-bar__inner {
