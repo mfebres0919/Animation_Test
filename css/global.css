@@ -257,6 +257,24 @@ a { color: inherit; }
 
 .btn--on-dark::before { background-color: rgba(0, 0, 0, 0.85); }
 
+/* Split button: label plus a contrasting arrow box, as in the CTA banner.
+   The box sits above the sweep, so the sweep still reads across the label. */
+.btn--split {
+  gap: 0;
+  padding: 0 0 0 1.75rem;
+}
+
+.btn__box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.125rem;
+  align-self: stretch;
+  margin-left: 1.25rem;
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
 /* ----------------------------------------------------- 7. FOCUS STATES -- */
 
 :focus-visible {
@@ -904,4 +922,115 @@ body.is-menu-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .to-top { transition: none; }
+}
+
+/* --------------------------------------------------- 14. SITE FOOTER ---- */
+
+.site-footer {
+  background-color: var(--color-black);
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.site-footer__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3rem);
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+
+.site-footer .site-logo { color: var(--color-white); }
+
+.site-footer__brand p {
+  margin-top: 1.125rem;
+  max-width: 34ch;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.site-footer__social {
+  display: flex;
+  gap: 0.625rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: var(--color-white);
+  transition: background-color 280ms var(--ease-out), border-color 280ms var(--ease-out), color 280ms var(--ease-out);
+}
+
+.site-footer__social a:hover,
+.site-footer__social a:focus-visible {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.site-footer h3 {
+  margin-bottom: 1.125rem;
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--color-white);
+}
+
+.site-footer__nav ul,
+.site-footer__contact ul {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+
+.site-footer a { text-decoration: none; }
+
+.site-footer__nav a,
+.site-footer__contact a {
+  transition: color 250ms var(--ease-out);
+}
+
+.site-footer__nav a:hover,
+.site-footer__nav a:focus-visible,
+.site-footer__contact a:hover,
+.site-footer__contact a:focus-visible { color: var(--color-gold); }
+
+.site-footer address {
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.site-footer__bar {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.875rem;
+}
+
+.site-footer__bar .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  padding-block: 1.5rem;
+}
+
+.site-footer__bar p { margin: 0; }
+
+.site-footer__bar a { transition: color 250ms var(--ease-out); }
+.site-footer__bar a:hover,
+.site-footer__bar a:focus-visible { color: var(--color-gold); }
+
+@media (min-width: 40em) {
+  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 64em) {
+  .site-footer__grid {
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.3fr);
+  }
 }

@@ -210,8 +210,15 @@ window.MF.isTouchDevice = function () {
 (function () {
   "use strict";
 
-  var videos = document.querySelectorAll("[data-autoplay-inview]");
-  if (!videos.length || !("IntersectionObserver" in window)) return;
+  var targets = document.querySelectorAll("[data-autoplay-inview]");
+  if (!targets.length || !("IntersectionObserver" in window)) return;
+
+  // The flag may sit on the video itself or on a wrapper around it - a card
+  // whose video is transparent until it plays is easier to observe by its
+  // wrapper. Resolve either form to the actual media element.
+  function videoIn(element) {
+    return element.tagName === "VIDEO" ? element : element.querySelector("video");
+  }
 
   if (window.MF.prefersReducedMotion()) return;
 
@@ -219,7 +226,8 @@ window.MF.isTouchDevice = function () {
 
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
-      var video = entry.target;
+      var video = videoIn(entry.target);
+      if (!video) return;
 
       if (!entry.isIntersecting) {
         video.pause();
@@ -249,7 +257,7 @@ window.MF.isTouchDevice = function () {
     });
   }, { rootMargin: "200px 0px", threshold: 0.1 });
 
-  videos.forEach(function (video) { observer.observe(video); });
+  targets.forEach(function (target) { observer.observe(target); });
 })();
 
 /* ========================================================================
@@ -288,58 +296,6 @@ window.MF.isTouchDevice = function () {
   sync();
 })();
 
-/* ========================================================================
-   PLAY ON HOVER
-   [data-play-on-hover] loads its video on first interaction and plays it
-   only while hovered or focused, so a grid of clips costs nothing until
-   someone actually looks at one.
-   ======================================================================== */
-
-(function () {
-  "use strict";
-
-  var cards = document.querySelectorAll("[data-play-on-hover]");
-  if (!cards.length || window.MF.prefersReducedMotion()) return;
-
-  var wantsMobileSource = window.MF.isTouchDevice() || window.innerWidth < 900;
-
-  cards.forEach(function (card) {
-    var video = card.querySelector("video");
-    if (!video) return;
-
-    function start() {
-      if (!video.getAttribute("src")) {
-        var source = wantsMobileSource
-          ? video.getAttribute("data-src-mobile")
-          : video.getAttribute("data-src-desktop");
-
-        if (!source) return;
-        video.setAttribute("src", source);
-      }
-
-      var attempt = video.play();
-      if (attempt && typeof attempt.then === "function") {
-        attempt.then(function () {
-          video.classList.add("is-playing");
-        }).catch(function () {
-          // Blocked: the poster simply stays put.
-        });
-      } else {
-        video.classList.add("is-playing");
-      }
-    }
-
-    function stop() {
-      video.pause();
-      video.classList.remove("is-playing");
-    }
-
-    card.addEventListener("mouseenter", start);
-    card.addEventListener("focus", start);
-    card.addEventListener("mouseleave", stop);
-    card.addEventListener("blur", stop);
-  });
-})();
 
 /* ========================================================================
    SCROLLSPY
@@ -412,4 +368,13 @@ window.MF.isTouchDevice = function () {
 
   window.addEventListener("resize", update);
   update();
+})();
+
+/* Keeps the footer copyright year current without editing the markup. */
+(function () {
+  "use strict";
+  var year = String(new Date().getFullYear());
+  document.querySelectorAll("[data-current-year]").forEach(function (node) {
+    node.textContent = year;
+  });
 })();

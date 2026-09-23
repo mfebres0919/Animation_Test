@@ -717,13 +717,25 @@
 
 .gallery__head h2 { margin-top: 0.75rem; }
 
+/* Phones get a horizontal swipe strip instead of a tall stack. Negative
+   margins bleed it to the screen edges while the padding keeps the first
+   and last card aligned with the container. */
 .gallery__grid {
   display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 78%;
   gap: clamp(1rem, 2.5vw, 1.75rem);
-  margin: 0;
-  padding: 0;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 0 var(--gutter) 0.5rem;
   list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  -webkit-overflow-scrolling: touch;
 }
+
+.gallery__grid > li { scroll-snap-align: start; }
 
 /* ------------------------------------------------------------- Card --- */
 
@@ -814,6 +826,11 @@
 .card:hover,
 .card:focus-visible { background-color: var(--color-gold); }
 
+/* Without a pointer there is no hover to reveal the description, so show it. */
+@media (hover: none) {
+  .card__reveal { grid-template-rows: 1fr; }
+}
+
 .card:hover .card__reveal,
 .card:focus-visible .card__reveal { grid-template-rows: 1fr; }
 
@@ -840,7 +857,8 @@
   transition: opacity 400ms var(--ease-out);
 }
 
-.card__video.is-playing { opacity: 1; }
+/* Set by the in-view autoplay component once the video has decoded data. */
+.card__video.is-ready { opacity: 1; }
 
 .card__play {
   position: absolute;
@@ -857,7 +875,9 @@
   transition: opacity 300ms var(--ease-out);
 }
 
-.card--video:hover .card__play { opacity: 0; }
+/* The play badge is a cue for a video that has not started; once it is
+   running the badge is just clutter over the picture. */
+.card__video.is-ready ~ .card__play { opacity: 0; }
 
 /* ====================== GALLERY: TABLET AND UP ======================== */
 
@@ -867,7 +887,14 @@
     align-items: end;
   }
 
-  .gallery__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery__grid {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-inline: 0;
+    padding: 0;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
 }
 
 /* ===================== GALLERY: DESKTOP AND UP ======================== */
@@ -886,4 +913,303 @@
   .card__video { transition: none; }
 
   .card:hover .card__media img { transform: none; }
+}
+
+/* ========================================================== CONTACT ==== */
+
+.contact__panel {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  padding: clamp(1.25rem, 3.5vw, 2.5rem);
+  background-color: #111111;
+  border-radius: 1rem;
+  color: var(--color-white);
+}
+
+.contact__media {
+  display: grid;
+  gap: 1.75rem;
+  align-content: start;
+  /* Mobile reads heading first; the map follows the form. */
+  order: 2;
+}
+
+.contact__content { order: 1; }
+
+.contact__map {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  /* clip, not hidden: the iframe is a separate compositing layer, and
+     clipping keeps it from painting outside the rounded corners as the
+     page scrolls past. */
+  overflow: clip;
+  border-radius: 0.75rem;
+  /* A dark fill means the slot is never a blank white rectangle while the
+     lazy iframe is still loading or repainting mid-scroll. */
+  background-color: #1d1d1d;
+  /* Own compositing layer, so scrolling does not leave it half-painted. */
+  transform: translateZ(0);
+}
+
+.contact__map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.contact__content h2 { margin: 0; }
+
+.contact__lead {
+  margin-top: 1rem;
+  max-width: 46ch;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* ---------------------------------------------------------- Details --- */
+
+.contact__details {
+  display: grid;
+  gap: 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+
+.contact__details li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.contact__details svg {
+  flex: none;
+  margin-top: 0.1875rem;
+  color: var(--color-gold);
+}
+
+.contact__details a {
+  text-decoration: none;
+  transition: color 250ms var(--ease-out);
+}
+
+.contact__details a:hover,
+.contact__details a:focus-visible { color: var(--color-gold); }
+
+.contact__details address {
+  font-style: normal;
+  line-height: 1.55;
+}
+
+/* ------------------------------------------------------------- Form --- */
+
+.contact__form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.contact__field { margin: 0; }
+
+.contact__form input,
+.contact__form textarea {
+  width: 100%;
+  padding: 1rem 1.125rem;
+  background-color: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--color-white);
+  font-size: 0.9375rem;
+  transition: border-color 250ms var(--ease-out), background-color 250ms var(--ease-out);
+}
+
+.contact__form textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.contact__form ::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  opacity: 1;
+}
+
+.contact__form input:hover,
+.contact__form textarea:hover { border-color: rgba(255, 255, 255, 0.22); }
+
+.contact__form input:focus,
+.contact__form textarea:focus {
+  outline: none;
+  background-color: #222222;
+  border-color: var(--color-gold);
+}
+
+.contact__form .btn--split { width: 100%; }
+
+/* ===================== CONTACT: TABLET AND UP ========================= */
+
+@media (min-width: 48em) {
+  .contact__form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact__field--full { grid-column: 1 / -1; }
+  .contact__form .btn--split { width: auto; }
+}
+
+/* ==================== CONTACT: DESKTOP AND UP ========================= */
+
+@media (min-width: 64em) {
+  .contact__panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+
+  /* Side by side, in source order. */
+  .contact__media,
+  .contact__content { order: 0; }
+}
+
+/* ================================================== BANNERS ============ */
+/* The final CTA and the newsletter banner share a structure: a responsive
+   picture as a background layer (MigsFlow §4), a scrim for contrast, and
+   content above both. */
+
+.cta-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--color-white);
+  background-color: var(--color-black);
+}
+
+/* Wedge on the left, photo panel on the right - the original layout, with
+   the grey fill swapped for the supplied image. */
+.subscribe {
+  display: grid;
+  overflow: hidden;
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.subscribe__art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 9rem;
+  padding: 2rem;
+  background-color: var(--color-gold);
+  color: rgba(17, 17, 17, 0.55);
+}
+
+.subscribe__body {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.cta-banner__bg,
+.subscribe__bg,
+.cta-banner__bg img,
+.subscribe__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cta-banner__scrim,
+.subscribe__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(8, 7, 6, 0.72);
+}
+
+.cta-banner__inner,
+.subscribe__inner {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(3rem, 8vw, 5.5rem);
+}
+
+.cta-banner__inner { text-align: center; }
+
+.cta-banner__lead { margin-inline: auto; }
+
+.cta-banner__actions { justify-content: center; }
+
+.cta-banner h2,
+.subscribe h2 { margin: 0.75rem 0 0; }
+
+.cta-banner__lead,
+.subscribe__inner p {
+  margin-top: 1rem;
+  max-width: 48ch;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.cta-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-top: 2rem;
+}
+
+/* ------------------------------------------------- Newsletter form ----- */
+
+.subscribe__form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  max-width: 34rem;
+}
+
+.subscribe__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.subscribe__form input {
+  flex: 1 1 14rem;
+  padding: 1rem 1.25rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--color-black);
+  font-size: 0.9375rem;
+  transition: border-color 250ms var(--ease-out);
+}
+
+.subscribe__form input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.subscribe__form ::placeholder { color: var(--color-grey); opacity: 1; }
+
+/* =================== SUBSCRIBE: DESKTOP AND UP ======================== */
+
+@media (min-width: 64em) {
+  .subscribe { grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr); }
+
+  /* Angled edge via clip-path rather than a rotated pseudo-element, so
+     nothing overflows and nothing needs unwinding. */
+  .subscribe__art {
+    min-height: 100%;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 5rem) 100%, 0 100%);
+  }
+
+  .subscribe__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .subscribe__inner {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: clamp(2rem, 4vw, 3.5rem) var(--gutter);
+  }
 }
