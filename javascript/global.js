@@ -283,14 +283,12 @@ window.MF.isTouchDevice = function () {
   }, { passive: true });
 
   button.addEventListener("click", function () {
-    // Deliberately an instant jump, not a smooth scroll. Smooth-scrolling
-    // from the footer would travel back through the pinned hero and scrub
-    // the whole renovation video in reverse on the way up - several seconds
-    // of flicker instead of a return to the top.
-    window.scrollTo(0, 0);
-    // Focus follows the jump, so keyboard users do not land mid-document.
-    var skip = document.querySelector(".skip-link");
-    if (skip) skip.focus({ preventScroll: true });
+    // Same eased scroll as the nav links, and capped in the same way so the
+    // trip back up through the pinned hero stays short.
+    window.MF.scrollToY(0, function () {
+      var skip = document.querySelector(".skip-link");
+      if (skip) skip.focus({ preventScroll: true });
+    });
   });
 
   sync();
@@ -377,4 +375,206 @@ window.MF.isTouchDevice = function () {
   document.querySelectorAll("[data-current-year]").forEach(function (node) {
     node.textContent = year;
   });
+})();
+
+/* ========================================================================
+   SCROLL REVEAL
+   Sections ease in as they come into view. Deliberately slow: a long
+   duration with a gentle stagger reads as intentional, where a quick pop
+   reads as a glitch.
+
+   The selector list lives here rather than as attributes in the markup so
+   that the hidden state is only ever applied when the animation can
+   actually run. No GSAP, reduced-motion preference, or no JavaScript at
+   all, and the page simply renders as normal.
+   ======================================================================== */
+
+(function () {
+  "use strict";
+
+  if (!window.gsap || !window.ScrollTrigger) return;
+  if (window.MF.prefersReducedMotion()) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  var SHIFT = [
+    ".about__content",
+    ".services__head",
+    ".services__list > li",
+    ".gallery__head",
+    ".gallery__grid > li",
+    ".cta-banner__inner",
+    ".contact__media",
+    ".contact__content",
+    ".subscribe__inner",
+    ".site-footer__grid > *"
+  ];
+
+  // Sticky columns: opacity only, no vertical travel.
+  var FADE = [
+    ".about__media",
+    ".services__visual"
+  ];
+
+  var SETTINGS = {
+    duration: 1.2,     // slow and deliberate
+    stagger: 0.14,     // gap between siblings entering together
+    start: "top 88%"   // a little way into the viewport, not at the edge
+  };
+
+  function collect(selectors, flag) {
+    var found = [];
+
+    selectors.forEach(function (selector) {
+      document.querySelectorAll(selector).forEach(function (element) {
+        if (element.hasAttribute("data-reveal")) return;
+        element.setAttribute("data-reveal", flag);
+        found.push(element);
+      });
+    });
+
+    return found;
+  }
+
+  function animate(batch, shift) {
+    var vars = {
+      opacity: 1,
+      duration: SETTINGS.duration,
+      ease: "power2.out",
+      stagger: SETTINGS.stagger,
+      overwrite: "auto",
+      onComplete: function () {
+        // Dropping the attribute releases the CSS hidden state, and clearing
+        // the inline styles leaves the element exactly as authored.
+        batch.forEach(function (element) { element.removeAttribute("data-reveal"); });
+        gsap.set(batch, { clearProps: "opacity,transform" });
+      }
+    };
+
+    if (shift) vars.y = 0;
+
+    gsap.to(batch, vars);
+  }
+
+  function register(selectors, flag, shift) {
+    var elements = collect(selectors, flag);
+    if (!elements.length) return;
+
+    ScrollTrigger.batch(elements, {
+      start: SETTINGS.start,
+      once: true,
+      onEnter: function (batch) { animate(batch, shift); }
+    });
+  }
+
+  register(SHIFT, "", true);
+  register(FADE, "fade", false);
+
+  // Elements already in view on load should not sit hidden waiting for a
+  // scroll event that may never come.
+  ScrollTrigger.refresh();
+})();
+
+/* ========================================================================
+   SMOOTH IN-PAGE SCROLLING
+   Written by hand rather than using scroll-behavior: smooth, which fights
+   ScrollTrigger - with it enabled, programmatic scrolls measurably landed
+   250-450px away from where they were sent. Doing it here means the
+   duration is capped too, so a jump from the footer to the top does not
+   crawl back through five screens of pinned hero.
+   ======================================================================== */
+
+(function () {
+  "use strict";
+
+  var mainBar = document.querySelector(".main-bar");
+  var running = null;
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function limit(y) {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    return Math.max(0, Math.min(Math.round(y), max));
+  }
+
+  function scrollToY(targetY, onArrive) {
+    targetY = limit(targetY);
+
+    var startY = window.scrollY;
+    var distance = targetY - startY;
+
+    if (!distance || window.MF.prefersReducedMotion()) {
+      window.scrollTo(0, targetY);
+      if (onArrive) onArrive();
+      return;
+    }
+
+    // Long trips are capped so crossing the pinned hero stays brisk.
+    var duration = Math.min(1500, Math.max(450, Math.abs(distance) * 0.35));
+    var startTime = null;
+    var token = {};
+    running = token;
+
+    function step(now) {
+      if (running !== token) return;     // superseded, or the user took over
+
+      if (startTime === null) startTime = now;
+
+      var progress = Math.min(1, (now - startTime) / duration);
+      window.scrollTo(0, Math.round(startY + distance * easeInOutCubic(progress)));
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        running = null;
+        if (onArrive) onArrive();
+      }
+    }
+
+    window.requestAnimationFrame(step);
+  }
+
+  // Any deliberate scroll from the user wins immediately.
+  ["wheel", "touchstart"].forEach(function (type) {
+    window.addEventListener(type, function () { running = null; }, { passive: true });
+  });
+
+  function positionOf(target) {
+    // A pinned section is position: fixed while active, so its own rect says
+    // nothing useful about where it sits in the document. Its pin-spacer does.
+    var box = target.closest(".pin-spacer") || target;
+    var offset = mainBar ? mainBar.offsetHeight : 0;
+    return box.getBoundingClientRect().top + window.scrollY - offset;
+  }
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    // Skip links should land instantly; that is the point of them.
+    if (link.classList.contains("skip-link")) return;
+
+    var hash = link.getAttribute("href");
+    if (!hash || hash.length < 2) return;
+
+    var target = document.getElementById(hash.slice(1));
+    if (!target) return;
+
+    event.preventDefault();
+
+    scrollToY(positionOf(target), function () {
+      history.replaceState(null, "", hash);
+
+      // Move focus so keyboard and screen reader users follow the page.
+      if (!target.hasAttribute("tabindex")) {
+        target.setAttribute("tabindex", "-1");
+      }
+      target.focus({ preventScroll: true });
+    });
+  });
+
+  // Shared so other components scroll the same way.
+  window.MF.scrollToY = scrollToY;
 })();

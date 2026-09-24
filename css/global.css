@@ -1037,3 +1037,26 @@ body.is-menu-open { overflow: hidden; }
     grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.3fr);
   }
 }
+
+/* ------------------------------------------------- 15. SCROLL REVEAL ----
+   The hidden state is applied by JavaScript adding [data-reveal], never by
+   the markup. If scripting fails the attribute is never added, so nothing
+   is left permanently invisible. The attribute is removed again once the
+   element has finished animating, which also drops the inline styles.
+   ------------------------------------------------------------------------ */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(1.75rem);
+}
+
+/* Sticky elements are revealed by opacity alone: a lingering transform on
+   them is best avoided, and a rising sticky column reads oddly anyway. */
+[data-reveal="fade"] { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
