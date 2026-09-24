@@ -23,9 +23,13 @@
   background-color: var(--color-black);
 }
 
-/* svh avoids the jump when mobile browser chrome collapses. */
-@supports (height: 100svh) {
-  .hero { height: 100svh; }
+/* dvh, not svh. svh is the SMALL viewport - the height with the browser
+   toolbars showing. iOS expands to the large viewport as you scroll, and a
+   hero locked to svh then falls short of the screen, exposing a band of the
+   pin-spacer underneath it. dvh tracks the viewport as it actually is, so
+   the pinned hero always reaches the bottom. */
+@supports (height: 100dvh) {
+  .hero { height: 100dvh; }
 }
 
 /* ------------------------------------------------------- Media layer -- */

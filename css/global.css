@@ -1040,23 +1040,30 @@ body.is-menu-open { overflow: hidden; }
 
 /* ------------------------------------------------- 15. SCROLL REVEAL ----
    The hidden state is applied by JavaScript adding [data-reveal], never by
-   the markup. If scripting fails the attribute is never added, so nothing
-   is left permanently invisible. The attribute is removed again once the
-   element has finished animating, which also drops the inline styles.
+   the markup, so a page without scripting is never left invisible. Both the
+   attribute and the class come off once the transition finishes.
    ------------------------------------------------------------------------ */
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(1.75rem);
+  transform: translateY(2.75rem);
+  transition:
+    opacity 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0s),
+    transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0s);
 }
 
-/* Sticky elements are revealed by opacity alone: a lingering transform on
-   them is best avoided, and a rising sticky column reads oddly anyway. */
+/* Sticky columns fade in place; no vertical travel. */
 [data-reveal="fade"] { transform: none; }
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
     transform: none;
+    transition: none;
   }
 }

@@ -379,27 +379,34 @@ window.MF.isTouchDevice = function () {
 
 /* ========================================================================
    SCROLL REVEAL
-   Sections ease in as they come into view. Deliberately slow: a long
-   duration with a gentle stagger reads as intentional, where a quick pop
-   reads as a glitch.
+   Sections ease in as they are reached. Deliberately slow: a long duration
+   with a gentle stagger reads as intentional, where a quick pop reads as a
+   glitch.
 
-   The selector list lives here rather than as attributes in the markup so
-   that the hidden state is only ever applied when the animation can
-   actually run. No GSAP, reduced-motion preference, or no JavaScript at
-   all, and the page simply renders as normal.
+   Uses IntersectionObserver with a negative bottom margin rather than a
+   ScrollTrigger batch. ScrollTrigger resolves its start positions against
+   the document as it stands when the trigger is created - and on this page
+   the hero's pin spacer adds several thousand pixels later, so those
+   positions went stale and elements revealed long before the reader
+   reached them. The observer's margin is evaluated by the browser on every
+   intersection, so it cannot drift.
+
+   The hidden state is applied by JavaScript adding [data-reveal], never by
+   the markup. No JavaScript or a reduced-motion preference means the
+   attribute is never added and nothing is left invisible.
    ======================================================================== */
 
 (function () {
   "use strict";
 
-  if (!window.gsap || !window.ScrollTrigger) return;
+  if (!("IntersectionObserver" in window)) return;
   if (window.MF.prefersReducedMotion()) return;
 
-  gsap.registerPlugin(ScrollTrigger);
-
-  var SHIFT = [
+  var SELECTORS = [
+    ".about__media",
     ".about__content",
     ".services__head",
+    ".services__visual",
     ".services__list > li",
     ".gallery__head",
     ".gallery__grid > li",
@@ -410,69 +417,69 @@ window.MF.isTouchDevice = function () {
     ".site-footer__grid > *"
   ];
 
-  // Sticky columns: opacity only, no vertical travel.
-  var FADE = [
-    ".about__media",
-    ".services__visual"
-  ];
+  // Sticky columns fade without the vertical travel: a rising sticky column
+  // reads oddly, and a lingering transform on one is best avoided.
+  var FADE_ONLY = [".about__media", ".services__visual"];
 
-  var SETTINGS = {
-    duration: 1.2,     // slow and deliberate
-    stagger: 0.14,     // gap between siblings entering together
-    start: "top 88%"   // a little way into the viewport, not at the edge
-  };
+  var STAGGER = 0.16;   // seconds between siblings entering together
 
-  function collect(selectors, flag) {
-    var found = [];
+  var fadeOnly = [];
+  FADE_ONLY.forEach(function (selector) {
+    document.querySelectorAll(selector).forEach(function (el) { fadeOnly.push(el); });
+  });
 
-    selectors.forEach(function (selector) {
-      document.querySelectorAll(selector).forEach(function (element) {
-        if (element.hasAttribute("data-reveal")) return;
-        element.setAttribute("data-reveal", flag);
-        found.push(element);
+  var elements = [];
+
+  SELECTORS.forEach(function (selector) {
+    document.querySelectorAll(selector).forEach(function (el) {
+      if (el.hasAttribute("data-reveal")) return;
+      el.setAttribute("data-reveal", fadeOnly.indexOf(el) === -1 ? "" : "fade");
+      elements.push(el);
+    });
+  });
+
+  if (!elements.length) return;
+
+  // Siblings revealed together step in one after another. Grouping by parent
+  // keeps each row or column on its own count rather than one running total.
+  var seen = new Map();
+
+  elements.forEach(function (el) {
+    var index = seen.get(el.parentElement) || 0;
+    if (index) el.style.setProperty("--reveal-delay", (index * STAGGER).toFixed(2) + "s");
+    seen.set(el.parentElement, index + 1);
+  });
+
+  function release(el) {
+    // Dropping the attribute releases the CSS hidden state and leaves the
+    // element exactly as authored.
+    el.removeAttribute("data-reveal");
+    el.style.removeProperty("--reveal-delay");
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+
+      var el = entry.target;
+      observer.unobserve(el);
+      el.classList.add("is-revealed");
+
+      el.addEventListener("transitionend", function handler(event) {
+        if (event.propertyName !== "opacity") return;
+        el.removeEventListener("transitionend", handler);
+        el.classList.remove("is-revealed");
+        release(el);
       });
     });
+  }, {
+    // Pulls the trigger line up to 72% of the viewport, so an element starts
+    // once it is properly on screen rather than as its top edge appears.
+    rootMargin: "0px 0px -28% 0px",
+    threshold: 0
+  });
 
-    return found;
-  }
-
-  function animate(batch, shift) {
-    var vars = {
-      opacity: 1,
-      duration: SETTINGS.duration,
-      ease: "power2.out",
-      stagger: SETTINGS.stagger,
-      overwrite: "auto",
-      onComplete: function () {
-        // Dropping the attribute releases the CSS hidden state, and clearing
-        // the inline styles leaves the element exactly as authored.
-        batch.forEach(function (element) { element.removeAttribute("data-reveal"); });
-        gsap.set(batch, { clearProps: "opacity,transform" });
-      }
-    };
-
-    if (shift) vars.y = 0;
-
-    gsap.to(batch, vars);
-  }
-
-  function register(selectors, flag, shift) {
-    var elements = collect(selectors, flag);
-    if (!elements.length) return;
-
-    ScrollTrigger.batch(elements, {
-      start: SETTINGS.start,
-      once: true,
-      onEnter: function (batch) { animate(batch, shift); }
-    });
-  }
-
-  register(SHIFT, "", true);
-  register(FADE, "fade", false);
-
-  // Elements already in view on load should not sit hidden waiting for a
-  // scroll event that may never come.
-  ScrollTrigger.refresh();
+  elements.forEach(function (el) { observer.observe(el); });
 })();
 
 /* ========================================================================
