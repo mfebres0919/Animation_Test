@@ -337,12 +337,11 @@
     if (!key || key === current) return;
     current = key;
 
+    // The rows are links to the service detail page, so the highlight is
+    // presentation only - which row is "active" just says which image is
+    // showing, and a link carries no pressed state to keep in step.
     items.forEach(function (item) {
-      var isActive = item.getAttribute("data-service") === key;
-      item.classList.toggle("is-active", isActive);
-      // aria-pressed and the class are set together so the accessible state
-      // never drifts from the visible one.
-      item.setAttribute("aria-pressed", String(isActive));
+      item.classList.toggle("is-active", item.getAttribute("data-service") === key);
     });
 
     images.forEach(function (image) {

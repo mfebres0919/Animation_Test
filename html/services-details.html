@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Kitchen Remodeling | Remodeling Co.</title>
+  <meta name="description" content="Full kitchen remodels in greater Houston: cabinetry, counters, lighting and layout, handled by one crew from demolition to final walkthrough." />
+
+  <!-- Above-the-fold fonts only (MigsFlow §5). Poppins 600 loads normally. -->
+  <link rel="preload" href="../fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- styles.css is homepage-only and is deliberately not loaded here. -->
+  <link rel="stylesheet" href="../css/global.css?v=3" />
+  <link rel="stylesheet" href="../css/services-details.css?v=1" />
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ========================= STICKY SITE HEADER ========================= -->
+  <header class="site-header" id="siteHeader">
+
+    <!-- Utility bar: scrolls away, leaving the main bar stuck to the top. -->
+    <div class="utility-bar">
+      <div class="utility-bar__inner">
+
+        <p class="utility-bar__pitch">
+          <span class="utility-bar__badge" aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="10" height="10" focusable="false">
+              <path d="M5 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" />
+            </svg>
+          </span>
+          Have a Project in Mind?
+          <a href="../index.html#contact">Contact With Us</a>
+        </p>
+
+        <ul class="utility-bar__contact">
+          <li>
+            <a href="tel:+15551234567">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                <path d="M3 1h3l1.5 3.5L5.8 5.8a9 9 0 004.4 4.4l1.3-1.7L15 10v3a2 2 0 01-2 2A12 12 0 011 3a2 2 0 012-2z" fill="currentColor" />
+              </svg>
+              <span>Call us: <strong>(555) 123-4567</strong></span>
+            </a>
+          </li>
+          <li aria-hidden="true" class="utility-bar__divider"></li>
+          <li>
+            <a href="mailto:hello@example.com">
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                <path d="M1 3h14v10H1z" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M1.5 3.5L8 8.5l6.5-5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+              <span>Send mail: <strong>hello@example.com</strong></span>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+    <!-- Main bar: sticks to the top of the viewport once scrolling starts. -->
+    <div class="main-bar">
+      <div class="main-bar__inner">
+
+        <a class="site-logo" href="../index.html" aria-label="Remodeling Co. home">
+          <svg class="site-logo__mark" viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" focusable="false">
+            <path d="M16 2.5 2.5 10.2v11.6L16 29.5l13.5-7.7V10.2z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" />
+            <path d="M16 11.2 9.8 14.8v7.1L16 25.5l6.2-3.6v-7.1z" fill="currentColor" />
+          </svg>
+          <span class="site-logo__text">Remodel<span>Co.</span></span>
+        </a>
+
+        <nav class="primary-nav" id="primaryNav" aria-label="Main">
+          <ul class="primary-nav__list">
+            <li><a class="primary-nav__link" href="../index.html#hero">Home</a></li>
+            <li><a class="primary-nav__link" href="../index.html#about">About</a></li>
+
+            <li class="primary-nav__item--has-submenu">
+              <!-- aria-current marks the branch of the site being read. The
+                   homepage scrollspy sets the same attribute as you scroll,
+                   so the two pages stay visually consistent. -->
+              <button
+                class="primary-nav__link submenu-toggle"
+                type="button"
+                data-nav-section="services"
+                aria-current="page"
+                aria-expanded="false"
+                aria-controls="servicesSubmenu">
+                Services
+                <svg class="submenu-toggle__chevron" viewBox="0 0 12 8" width="11" height="7" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </button>
+              <div class="submenu" id="servicesSubmenu">
+                <ul class="submenu__list">
+                  <li><a class="submenu__link" href="services-details.html">Kitchen Remodeling</a></li>
+                  <li><a class="submenu__link" href="services-details.html">Bathroom Remodeling</a></li>
+                  <li><a class="submenu__link" href="services-details.html">Patio Remodeling</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <li><a class="primary-nav__link" href="../index.html#gallery">Gallery</a></li>
+            <li><a class="primary-nav__link" href="../index.html#contact">Contact</a></li>
+
+            <li class="primary-nav__cta">
+              <a class="btn btn--dark" href="../index.html#contact">Book a Consultation</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="main-bar__actions">
+          <a class="btn btn--dark main-bar__cta" href="../index.html#contact">
+            Book a Consultation
+            <svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true" focusable="false">
+              <path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+            </svg>
+          </a>
+
+          <button
+            class="nav-toggle"
+            id="navToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="primaryNav">
+            <span class="nav-toggle__bars" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </span>
+            <span class="visually-hidden">Menu</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </header>
+
+  <div class="nav-backdrop" id="navBackdrop"></div>
+
+  <main id="main">
+
+    <!-- ========================== PAGE HERO BANNER ======================== -->
+    <section class="page-hero" aria-labelledby="pageTitle">
+      <picture class="page-hero__bg">
+        <source media="(min-width: 48em)" srcset="../images/services/kitchen.webp" type="image/webp" />
+        <source media="(min-width: 48em)" srcset="../images/services/kitchen.jpg" type="image/jpeg" />
+        <source srcset="../images/services/kitchen-m.webp" type="image/webp" />
+        <img src="../images/services/kitchen-m.jpg" alt="" width="640" height="480" fetchpriority="high" decoding="async" />
+      </picture>
+      <div class="page-hero__scrim" aria-hidden="true"></div>
+      <div class="page-hero__pattern" aria-hidden="true"></div>
+      <div class="page-hero__divider" aria-hidden="true"></div>
+
+      <div class="container page-hero__inner">
+        <h1 id="pageTitle">Kitchen Remodeling</h1>
+
+        <nav aria-label="Breadcrumb">
+          <ol class="breadcrumb">
+            <li><a href="../index.html#hero">Home</a></li>
+            <li><a href="../index.html#services">Services</a></li>
+            <li><span aria-current="page">Kitchen Remodeling</span></li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ========================= SERVICE DETAIL BODY ====================== -->
+    <section class="section service-detail">
+      <div class="container service-detail__grid">
+
+        <!-- ------------------------------ SIDEBAR ------------------------- -->
+        <aside class="service-aside" aria-label="Service information">
+
+          <!-- Service switcher. Every entry points at this same page for now;
+               give each service its own file and only these hrefs change. -->
+          <div class="service-card">
+            <h2 class="service-card__title">Our Services</h2>
+            <ul class="service-nav">
+              <li>
+                <a class="service-nav__link" href="services-details.html" aria-current="page">
+                  <span>Kitchen Remodeling</span>
+                  <svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false">
+                    <path d="M3 11 11 3M4.5 3H11v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a class="service-nav__link" href="services-details.html">
+                  <span>Bathroom Remodeling</span>
+                  <svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false">
+                    <path d="M3 11 11 3M4.5 3H11v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a class="service-nav__link" href="services-details.html">
+                  <span>Patio Remodeling</span>
+                  <svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false">
+                    <path d="M3 11 11 3M4.5 3H11v6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Dark contact card. -->
+          <div class="help-card">
+            <div class="help-card__pattern" aria-hidden="true"></div>
+
+            <span class="help-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 18 18" width="20" height="20" focusable="false">
+                <path d="M3 1.5h3l1.5 3.5-1.7 1.3a9 9 0 004.4 4.4l1.3-1.7 3.5 1.5v3a2 2 0 01-2 2A12.5 12.5 0 011 3.5a2 2 0 012-2z" fill="currentColor" />
+              </svg>
+            </span>
+
+            <ul class="help-card__contact">
+              <li><a href="tel:+17135550142">(713) 555-0142</a></li>
+              <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+            </ul>
+
+            <p class="help-card__note">If you need any help, contact with us.</p>
+
+            <a class="btn btn--primary btn--split" href="../index.html#contact">
+              Contact Us
+              <span class="btn__box" aria-hidden="true"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </a>
+          </div>
+
+          <!-- Downloads. Point the hrefs at real files when you have them. -->
+          <div class="service-card">
+            <h2 class="service-card__title">Download</h2>
+            <ul class="download-list">
+              <li>
+                <a href="#" download>
+                  <svg class="download-list__file" viewBox="0 0 18 18" width="22" height="22" aria-hidden="true" focusable="false">
+                    <path d="M3.5 1.5h7L15 6v10.5H3.5z" fill="none" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M10.5 1.5V6H15" fill="none" stroke="currentColor" stroke-width="1.5" />
+                  </svg>
+                  <span class="download-list__label">Kitchen Planning Guide<small>PDF &middot; 1.2 MB</small></span>
+                  <span class="download-list__go" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+                      <path d="M8 2v9M4 7.5 8 11.5l4-4M2.5 14h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="#" download>
+                  <svg class="download-list__file" viewBox="0 0 18 18" width="22" height="22" aria-hidden="true" focusable="false">
+                    <path d="M3.5 1.5h7L15 6v10.5H3.5z" fill="none" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M10.5 1.5V6H15" fill="none" stroke="currentColor" stroke-width="1.5" />
+                  </svg>
+                  <span class="download-list__label">Materials &amp; Finishes Checklist<small>PDF &middot; 640 KB</small></span>
+                  <span class="download-list__go" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+                      <path d="M8 2v9M4 7.5 8 11.5l4-4M2.5 14h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="#" download>
+                  <svg class="download-list__file" viewBox="0 0 18 18" width="22" height="22" aria-hidden="true" focusable="false">
+                    <path d="M3.5 1.5h7L15 6v10.5H3.5z" fill="none" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M10.5 1.5V6H15" fill="none" stroke="currentColor" stroke-width="1.5" />
+                  </svg>
+                  <span class="download-list__label">Workmanship Warranty<small>PDF &middot; 310 KB</small></span>
+                  <span class="download-list__go" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+                      <path d="M8 2v9M4 7.5 8 11.5l4-4M2.5 14h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </aside>
+
+        <!-- ---------------------------- MAIN COLUMN ----------------------- -->
+        <div class="service-body">
+
+          <picture class="service-body__media">
+            <source media="(min-width: 48em)" srcset="../images/gallery/project-01.webp" type="image/webp" />
+            <source media="(min-width: 48em)" srcset="../images/gallery/project-01.jpg" type="image/jpeg" />
+            <source srcset="../images/gallery/project-01-m.webp" type="image/webp" />
+            <img src="../images/gallery/project-01-m.jpg" alt="Open kitchen with a marble waterfall island and oak cabinetry" width="480" height="600" decoding="async" />
+          </picture>
+
+          <h2>Kitchen Remodeling</h2>
+
+          <p class="service-body__lead">
+            The kitchen is the room your household actually lives in, and it is
+            the one a bad remodel punishes you for every single day. We plan the
+            layout around how you cook and gather first, then pick finishes &mdash;
+            never the other way around.
+          </p>
+
+          <p class="service-body__text">
+            A full kitchen takes us four to seven weeks on site, depending on
+            whether walls move and how long your cabinetry takes to arrive. You
+            get one project manager, a written schedule before demolition starts,
+            and a dust wall between the work and the rest of your house. Plumbing,
+            electrical and tile are all handled by our own crew, so nobody is
+            waiting on a subcontractor who booked another job.
+          </p>
+
+          <ul class="checklist">
+            <li>Layout and lighting plan drawn before anything is ordered</li>
+            <li>Cabinetry, counters, backsplash and flooring as one package</li>
+            <li>Permits pulled and inspections scheduled by us, not by you</li>
+            <li>Written fixed price &mdash; change orders only if you ask for a change</li>
+          </ul>
+
+          <!-- Two supporting points, each with its own photo. -->
+          <ul class="service-features">
+            <li>
+              <picture>
+                <source media="(min-width: 48em)" srcset="../images/gallery/project-02.webp" type="image/webp" />
+                <source media="(min-width: 48em)" srcset="../images/gallery/project-02.jpg" type="image/jpeg" />
+                <source srcset="../images/gallery/project-02-m.webp" type="image/webp" />
+                <img src="../images/gallery/project-02-m.jpg" alt="Modern kitchen with black cabinetry and a veined black marble island" width="480" height="600" loading="lazy" decoding="async" />
+              </picture>
+              <h3>
+                <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" focusable="false">
+                  <path d="M10 1.5 18 6v8l-8 4.5L2 14V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                  <path d="m6.5 10 2.5 2.5L14 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                One Crew Throughout
+              </h3>
+              <p>
+                The same team that tears out the old kitchen installs the new
+                one. No handoffs between trades, no week-long gaps waiting for
+                somebody else's schedule to clear.
+              </p>
+            </li>
+            <li>
+              <picture>
+                <source media="(min-width: 48em)" srcset="../images/gallery/project-03.webp" type="image/webp" />
+                <source media="(min-width: 48em)" srcset="../images/gallery/project-03.jpg" type="image/jpeg" />
+                <source srcset="../images/gallery/project-03-m.webp" type="image/webp" />
+                <img src="../images/gallery/project-03-m.jpg" alt="Kitchen with sage green cabinets, exposed beams and a walnut island" width="480" height="600" loading="lazy" decoding="async" />
+              </picture>
+              <h3>
+                <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M10 5v5.2l3.4 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                A Date You Can Plan Around
+              </h3>
+              <p>
+                You get a finish date in writing before we start, and a short
+                update every Friday telling you where the job stands against it.
+              </p>
+            </li>
+          </ul>
+
+          <!-- FAQ. Native <details>, so it works with JavaScript disabled. -->
+          <div class="faq">
+            <details class="faq__item" open>
+              <summary>
+                <span>How long does a full kitchen remodel take?</span>
+                <svg class="faq__chevron" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </summary>
+              <div class="faq__body">
+                <div class="faq__clip">
+                  <p class="faq__answer">
+                    Four to seven weeks on site for most kitchens. Moving plumbing or
+                    taking out a load-bearing wall adds roughly a week; custom
+                    cabinetry can add longer, but that lead time runs before we ever
+                    start demolition, so it does not leave you without a kitchen.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary>
+                <span>Can I stay in the house during the work?</span>
+                <svg class="faq__chevron" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </summary>
+              <div class="faq__body">
+                <div class="faq__clip">
+                  <p class="faq__answer">
+                    Almost everyone does. We seal the work area behind a dust wall,
+                    run air scrubbers, and can set up a temporary sink and counter
+                    elsewhere in the house so you are not eating out for a month.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary>
+                <span>Do you handle permits and inspections?</span>
+                <svg class="faq__chevron" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </summary>
+              <div class="faq__body">
+                <div class="faq__clip">
+                  <p class="faq__answer">
+                    Yes. Permits, inspection scheduling and the final sign-off are all
+                    ours. The cost is in the quote you approve &mdash; it is not a line
+                    item that appears later.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary>
+                <span>What does a kitchen remodel cost in Houston?</span>
+                <svg class="faq__chevron" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </summary>
+              <div class="faq__body">
+                <div class="faq__clip">
+                  <p class="faq__answer">
+                    Most of the kitchens we finish land between $35,000 and $90,000.
+                    The spread is cabinetry and whether the layout changes. We will
+                    give you a real number after one visit, not a range.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary>
+                <span>What happens if something goes wrong afterwards?</span>
+                <svg class="faq__chevron" viewBox="0 0 12 8" width="12" height="8" aria-hidden="true" focusable="false">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                </svg>
+              </summary>
+              <div class="faq__body">
+                <div class="faq__clip">
+                  <p class="faq__answer">
+                    Our workmanship is covered for two years, and we pass through the
+                    manufacturer warranty on everything we install. Call the same
+                    number you have been calling all along &mdash; it reaches the same
+                    people.
+                  </p>
+                </div>
+              </div>
+            </details>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================= FINAL CTA BANNER ========================= -->
+    <!-- --card insets the banner so white shows on all four sides. On this
+         page it lands directly above the newsletter banner, and two dark
+         photo panels meeting edge to edge read as one block. -->
+    <section class="cta-banner cta-banner--card" aria-labelledby="ctaHeading">
+      <picture class="cta-banner__bg">
+        <source media="(min-width: 48em)" srcset="../images/backgrounds/cta-banner.webp" type="image/webp" />
+        <source media="(min-width: 48em)" srcset="../images/backgrounds/cta-banner.jpg" type="image/jpeg" />
+        <source srcset="../images/backgrounds/cta-banner-m.webp" type="image/webp" />
+        <img src="../images/backgrounds/cta-banner-m.jpg" alt="" width="900" height="300" loading="lazy" decoding="async" />
+      </picture>
+      <div class="cta-banner__scrim" aria-hidden="true"></div>
+
+      <div class="container cta-banner__inner">
+        <p class="eyebrow">Serving Greater Houston</p>
+        <h2 id="ctaHeading">Ready To Start Your Kitchen?</h2>
+        <p class="cta-banner__lead">
+          Book a free in-home consultation. We measure, talk through scope, and
+          come back with real numbers &mdash; usually inside a week.
+        </p>
+        <div class="cta-banner__actions">
+          <a class="btn btn--primary" href="../index.html#contact">Book a Consultation</a>
+          <a class="btn btn--on-dark" href="tel:+17135550142">Call (713) 555-0142</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ SUBSCRIBE ============================= -->
+    <section class="subscribe" aria-labelledby="subscribeHeading">
+
+      <div class="subscribe__art" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="120" height="120" focusable="false">
+          <path d="M16 2.5 2.5 10.2v11.6L16 29.5l13.5-7.7V10.2z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" />
+          <path d="M16 11.2 9.8 14.8v7.1L16 25.5l6.2-3.6v-7.1z" fill="currentColor" />
+        </svg>
+      </div>
+
+      <div class="subscribe__body">
+        <picture class="subscribe__bg">
+          <source media="(min-width: 48em)" srcset="../images/backgrounds/subscribe-banner.webp" type="image/webp" />
+          <source media="(min-width: 48em)" srcset="../images/backgrounds/subscribe-banner.jpg" type="image/jpeg" />
+          <source srcset="../images/backgrounds/subscribe-banner-m.webp" type="image/webp" />
+          <img src="../images/backgrounds/subscribe-banner-m.jpg" alt="" width="900" height="300" loading="lazy" decoding="async" />
+        </picture>
+        <div class="subscribe__scrim" aria-hidden="true"></div>
+
+        <div class="subscribe__inner">
+          <h2 id="subscribeHeading">Subscribe To Our Newsletter</h2>
+          <p>
+            Project write-ups, before-and-afters and the occasional honest note
+            about what a remodel actually costs in Houston. Once a month, no more.
+          </p>
+
+          <!-- No backend yet: point action at your list provider. -->
+          <form class="subscribe__form" action="#" method="post">
+            <label class="visually-hidden" for="subEmail">Email address</label>
+            <input id="subEmail" name="email" type="email" placeholder="Enter Your Email" autocomplete="email" required />
+            <button class="btn btn--primary btn--split" type="submit">
+              Subscribe Now
+              <span class="btn__box" aria-hidden="true"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+
+      <div class="site-footer__brand">
+        <a class="site-logo" href="../index.html" aria-label="Remodeling Co. home">
+          <svg class="site-logo__mark" viewBox="0 0 32 32" width="34" height="34" aria-hidden="true" focusable="false">
+            <path d="M16 2.5 2.5 10.2v11.6L16 29.5l13.5-7.7V10.2z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" />
+            <path d="M16 11.2 9.8 14.8v7.1L16 25.5l6.2-3.6v-7.1z" fill="currentColor" />
+          </svg>
+          <span class="site-logo__text">Remodel<span>Co.</span></span>
+        </a>
+        <p>
+          Kitchen, bathroom and patio remodeling across greater Houston. One
+          crew, one point of contact, from demolition to final walkthrough.
+        </p>
+        <ul class="site-footer__social">
+          <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 18 18" width="17" height="17" aria-hidden="true" focusable="false"><path d="M10.6 17V9.8h2.4l.4-2.8h-2.8V5.2c0-.8.2-1.4 1.4-1.4h1.5V1.3C13.2 1.2 12.4 1 11.4 1 9.3 1 7.9 2.3 7.9 4.8V7H5.5v2.8h2.4V17z" fill="currentColor"/></svg></a></li>
+          <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 18 18" width="17" height="17" aria-hidden="true" focusable="false"><rect x="1.8" y="1.8" width="14.4" height="14.4" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="9" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="13.2" cy="4.8" r="1" fill="currentColor"/></svg></a></li>
+          <li><a href="#" aria-label="Houzz"><svg viewBox="0 0 18 18" width="17" height="17" aria-hidden="true" focusable="false"><path d="M4 1.5h3v4.2l7 4v7.3h-5v-4.2H9v4.2H4z" fill="currentColor"/></svg></a></li>
+        </ul>
+      </div>
+
+      <nav class="site-footer__nav" aria-label="Footer">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="../index.html#hero">Home</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#gallery">Gallery</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <nav class="site-footer__nav" aria-label="Services">
+        <h3>Services</h3>
+        <ul>
+          <li><a href="services-details.html">Kitchen Remodeling</a></li>
+          <li><a href="services-details.html">Bathroom Remodeling</a></li>
+          <li><a href="services-details.html">Patio Remodeling</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__contact">
+        <h3>Get In Touch</h3>
+        <ul>
+          <li><a href="tel:+17135550142">(713) 555-0142</a></li>
+          <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+          <li><address>1200 Smith St, Suite 1600<br />Houston, TX 77002</address></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="site-footer__bar">
+      <div class="container">
+        <p>&copy; <span data-current-year>2026</span> Remodel Co. All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> &middot; <a href="#">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false">
+      <path d="M8 13.5V3M3 7.5 8 2.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <!-- GSAP and script.js are the homepage hero's; this page needs neither. -->
+  <script src="../javascript/global.js?v=3" defer></script>
+  <script src="../javascript/services-details.js?v=1" defer></script>
+</body>
+</html>

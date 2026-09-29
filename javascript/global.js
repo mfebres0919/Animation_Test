@@ -410,6 +410,12 @@ window.MF.isTouchDevice = function () {
     ".services__list > li",
     ".gallery__head",
     ".gallery__grid > li",
+    /* Service detail pages. Absent from the homepage, so these simply
+       match nothing there. */
+    ".service-aside > *",
+    ".service-body__media",
+    ".service-features > li",
+    ".faq",
     ".cta-banner__inner",
     ".contact__media",
     ".contact__content",

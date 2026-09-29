@@ -1067,3 +1067,154 @@ body.is-menu-open { overflow: hidden; }
     transition: none;
   }
 }
+
+/* --------------------------------------------------- 16. BANNERS ------
+   Moved here from styles.css: the final CTA and the newsletter banner are
+   shared by the homepage and the service detail pages. */
+
+/* The final CTA and the newsletter banner share a structure: a responsive
+   picture as a background layer (MigsFlow §4), a scrim for contrast, and
+   content above both. */
+
+.cta-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--color-white);
+  background-color: var(--color-black);
+}
+
+/* Wedge on the left, photo panel on the right - the original layout, with
+   the grey fill swapped for the supplied image. */
+.subscribe {
+  display: grid;
+  overflow: hidden;
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.subscribe__art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 9rem;
+  padding: 2rem;
+  background-color: var(--color-gold);
+  color: rgba(17, 17, 17, 0.55);
+}
+
+.subscribe__body {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.cta-banner__bg,
+.subscribe__bg,
+.cta-banner__bg img,
+.subscribe__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cta-banner__scrim,
+.subscribe__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(8, 7, 6, 0.72);
+}
+
+.cta-banner__inner,
+.subscribe__inner {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(3rem, 8vw, 5.5rem);
+}
+
+.cta-banner__inner { text-align: center; }
+
+.cta-banner__lead { margin-inline: auto; }
+
+.cta-banner__actions { justify-content: center; }
+
+.cta-banner h2,
+.subscribe h2 { margin: 0.75rem 0 0; }
+
+.cta-banner__lead,
+.subscribe__inner p {
+  margin-top: 1rem;
+  max-width: 48ch;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.cta-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-top: 2rem;
+}
+
+/* ------------------------------------------------- Newsletter form ----- */
+
+.subscribe__form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  max-width: 34rem;
+}
+
+.subscribe__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.subscribe__form input {
+  flex: 1 1 14rem;
+  padding: 1rem 1.25rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: var(--color-black);
+  font-size: 0.9375rem;
+  transition: border-color 250ms var(--ease-out);
+}
+
+.subscribe__form input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+}
+
+.subscribe__form ::placeholder { color: var(--color-grey); opacity: 1; }
+
+/* =================== SUBSCRIBE: DESKTOP AND UP ======================== */
+
+@media (min-width: 64em) {
+  .subscribe { grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr); }
+
+  /* Angled edge via clip-path rather than a rotated pseudo-element, so
+     nothing overflows and nothing needs unwinding. */
+  .subscribe__art {
+    min-height: 100%;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 5rem) 100%, 0 100%);
+  }
+
+  .subscribe__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .subscribe__inner {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: clamp(2rem, 4vw, 3.5rem) var(--gutter);
+  }
+}

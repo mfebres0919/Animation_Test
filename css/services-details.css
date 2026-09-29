@@ -1,0 +1,521 @@
+/* ========================================================================
+   SERVICES-DETAILS.CSS — Service detail pages only.
+   Anything reusable across pages belongs in global.css instead.
+   Mobile-first: base rules are the phone layout, min-width queries enhance.
+   ======================================================================== */
+
+/* ========================================================= PAGE HERO ==== */
+/* Photo banner with the page title and a breadcrumb. Same construction as
+   the homepage banners: a responsive picture as a background layer, a scrim
+   for contrast, content above both. The pyramid divider at the foot is the
+   one from the homepage services section, so the two pages hand off to the
+   white below them in the same voice. */
+
+.page-hero {
+  --divider-height: clamp(2rem, 5vw, 4.5rem);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: #030000;
+  color: var(--color-white);
+  text-align: center;
+}
+
+.page-hero__bg,
+.page-hero__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(8, 7, 6, 0.74);
+}
+
+/* Same crosshatch tile as the homepage services section, at the same fixed
+   cell size so the scale matches between the two. */
+.page-hero__pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("../images/svg-backgrounds/alternating-crosshatch.svg");
+  background-repeat: repeat;
+  background-size: 37.5rem 37.5rem;
+  opacity: 0.55;
+}
+
+/* Mirrored so the solid edge lands flush with the white section below and
+   the peaks cut up into the banner. */
+.page-hero__divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: var(--divider-height);
+  pointer-events: none;
+  transform: scaleY(-1);
+}
+
+@supports ((mask-size: 100% 100%) or (-webkit-mask-size: 100% 100%)) {
+  .page-hero__divider {
+    background-color: var(--color-white);
+    -webkit-mask-image: url("../images/svg-dividers/intersecting-pyramids.svg");
+    mask-image: url("../images/svg-dividers/intersecting-pyramids.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+}
+
+.page-hero__inner {
+  position: relative;
+  z-index: 2;
+  padding-block: clamp(3.5rem, 11vw, 7.5rem)
+                 calc(clamp(3.5rem, 11vw, 7.5rem) + var(--divider-height));
+}
+
+.page-hero h1 { margin: 0; }
+
+/* Breadcrumb ------------------------------------------------------------ */
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-small);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Separator drawn on the item rather than typed into the markup, so a
+   screen reader never reads a stray chevron between the links. */
+.breadcrumb li + li::before {
+  content: "";
+  width: 0.375rem;
+  height: 0.375rem;
+  border-top: 2px solid var(--color-gold);
+  border-right: 2px solid var(--color-gold);
+  transform: rotate(45deg);
+}
+
+.breadcrumb a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  transition: color 250ms var(--ease-out);
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible { color: var(--color-gold); }
+
+.breadcrumb [aria-current] { color: var(--color-gold); }
+
+/* ====================================================== PAGE LAYOUT ===== */
+
+.service-detail__grid {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4rem);
+}
+
+/* ========================================================= SIDEBAR ====== */
+
+.service-aside {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  align-content: start;
+}
+
+.service-card {
+  padding: clamp(1.5rem, 4vw, 2rem);
+  background-color: #f5f4f1;
+}
+
+.service-card__title {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+}
+
+/* --------------------------------------------------- Service switcher -- */
+
+.service-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.625rem;
+}
+
+.service-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9375rem 1.125rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grey-light);
+  color: var(--color-black);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 350ms var(--ease-out),
+    border-color 350ms var(--ease-out),
+    color 350ms var(--ease-out);
+}
+
+.service-nav__link span { flex: 1; }
+
+.service-nav__link svg {
+  flex: none;
+  transition: transform 350ms var(--ease-out);
+}
+
+.service-nav__link:hover,
+.service-nav__link:focus-visible {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.service-nav__link:hover svg,
+.service-nav__link:focus-visible svg { transform: translate(0.1875rem, -0.1875rem); }
+
+/* The page you are already on. aria-current is the source of truth, so the
+   highlight and the announcement can never drift apart. */
+.service-nav__link[aria-current] {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* ------------------------------------------------------- Help card ----- */
+
+.help-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 2.75rem) clamp(1.5rem, 4vw, 2rem);
+  background-color: #030000;
+  color: var(--color-white);
+  text-align: center;
+}
+
+.help-card__pattern {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("../images/svg-backgrounds/alternating-crosshatch.svg");
+  background-repeat: repeat;
+  background-size: 37.5rem 37.5rem;
+  opacity: 0.7;
+}
+
+.help-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.help-card__contact {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.help-card__contact a {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 3vw, 1.4rem);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 250ms var(--ease-out);
+}
+
+.help-card__contact a:hover,
+.help-card__contact a:focus-visible { color: var(--color-gold); }
+
+.help-card__contact li + li { margin-top: 0.375rem; }
+
+.help-card__note {
+  margin: 1.25rem 0 1.5rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.875rem;
+}
+
+.help-card .btn { width: 100%; }
+
+/* ---------------------------------------------------- Download card ---- */
+
+.download-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.625rem;
+}
+
+.download-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grey-light);
+  text-decoration: none;
+  transition: border-color 350ms var(--ease-out);
+}
+
+.download-list a:hover,
+.download-list a:focus-visible { border-color: var(--color-gold); }
+
+.download-list__file {
+  flex: none;
+  color: var(--color-gold-dark);
+}
+
+.download-list__label {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.download-list__label small {
+  display: block;
+  color: var(--color-grey);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.download-list__go {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  transition: background-color 350ms var(--ease-out);
+}
+
+.download-list a:hover .download-list__go,
+.download-list a:focus-visible .download-list__go {
+  background-color: var(--color-black);
+  color: var(--color-gold);
+}
+
+/* ==================================================== MAIN CONTENT ====== */
+
+.service-body__media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.service-body h2 { margin: clamp(1.75rem, 4vw, 2.5rem) 0 1.25rem; }
+
+/* The opening paragraph carries the summary, so it is set heavier and a
+   little larger than the body copy that follows it. */
+.service-body__lead {
+  font-size: clamp(0.9rem, 2vw, 1.0625rem);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.service-body__text { color: var(--color-grey); }
+
+.service-body .checklist { margin-top: 1.75rem; }
+
+/* ------------------------------------------------------- Feature pair -- */
+
+.service-features {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.25rem);
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+  padding: 0;
+  list-style: none;
+}
+
+.service-features img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.service-features h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0 0.75rem;
+  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+}
+
+.service-features h3 svg {
+  flex: none;
+  color: var(--color-gold-dark);
+}
+
+.service-features p {
+  margin: 0;
+  color: var(--color-grey);
+  font-size: 0.875rem;
+}
+
+/* ============================================================== FAQ ===== */
+/* Native disclosure widgets: the open/closed state, keyboard operation and
+   screen-reader announcement all come from the browser, so there is no
+   JavaScript to load and nothing to go wrong if it fails. */
+
+.faq {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.faq__item {
+  background-color: #f5f4f1;
+  /* Gold rule down the leading edge, matching the accent used on the
+     sidebar's active row. */
+  border-left: 3px solid var(--color-gold);
+}
+
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  /* Suppress the default triangle: Safari needs the -webkit- pseudo, the
+     rest honour list-style. */
+  list-style: none;
+}
+
+.faq__item summary::-webkit-details-marker { display: none; }
+
+.faq__item summary span { flex: 1; }
+
+.faq__chevron {
+  flex: none;
+  color: var(--color-gold-dark);
+  transition: transform 300ms var(--ease-out);
+}
+
+.faq__item[open] .faq__chevron { transform: rotate(180deg); }
+
+/* The answer slides open on a grid row going 0fr to 1fr - the same technique
+   the mobile nav submenu uses, and the only one that animates to a height
+   the content decides for itself. The row is the thing that moves; the
+   answer inside it is clipped while it does.
+
+   Without JavaScript this still reads correctly: <details open> matches the
+   1fr rule, so the answer is simply there, it just arrives instantly. */
+.faq__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms var(--ease-out);
+}
+
+.faq__item[open] .faq__body { grid-template-rows: 1fr; }
+
+/* Two JS-applied states, both after the [open] rule so they win on source
+   order: the start frame of an opening panel, and the whole of a closing
+   one - which has to keep the [open] attribute until the row has finished
+   collapsing, or the browser would yank the content out mid-animation. */
+.faq__item.is-opening .faq__body,
+.faq__item.is-closing .faq__body { grid-template-rows: 0fr; }
+
+.faq__item.is-closing .faq__chevron { transform: rotate(0deg); }
+
+/* The clipper, and the reason the answer is not the grid item itself.
+
+   A grid track sized in fr still gets an automatic minimum from its item's
+   MARGIN box, and min-height only zeroes the content box - padding survives
+   it. Put the answer's padding on the grid item and the row bottoms out at
+   the padding instead of at zero: it collapses most of the way, stalls, and
+   the rest vanishes the instant [open] comes off. So this element does the
+   clipping and carries no spacing of its own, and the padding lives on the
+   paragraph inside it, where it is clipped along with the text. */
+.faq__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.faq__answer {
+  margin: 0;
+  padding: 0 1.25rem 1.25rem;
+  color: var(--color-grey);
+  font-size: 0.875rem;
+}
+
+/* ================================================= INSET CTA CARD ======= */
+/* Page-scoped modifier on the shared .cta-banner. On the homepage the banner
+   is full bleed with white sections either side of it, so its edges are
+   already obvious. Here it butts straight up against the newsletter banner,
+   and two dark photo panels touching edge to edge read as a single block.
+   Insetting it on all four sides puts white back between the two. */
+
+.cta-banner--card {
+  width: calc(100% - 2 * var(--gutter));
+  max-width: var(--container-max);
+  margin-inline: auto;
+  margin-bottom: clamp(2.5rem, 7vw, 4.5rem);
+}
+
+/* =================== TABLET AND UP ===================================== */
+
+@media (min-width: 48em) {
+  .service-features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* =================== DESKTOP AND UP ==================================== */
+
+@media (min-width: 64em) {
+  .service-detail__grid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    align-items: start;
+  }
+
+  /* Offset by the sticky header so the top card is never tucked under it. */
+  .service-aside {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+  }
+}
+
+/* =================== REDUCED MOTION ==================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .service-nav__link,
+  .service-nav__link svg,
+  .download-list a,
+  .download-list__go,
+  .faq__body,
+  .faq__chevron { transition: none; }
+}
